@@ -186,11 +186,11 @@ Total Installed Size:  1254.96 MiB
 
 在搜索框内搜索环境变量，选择编辑系统环境变量
 
-![ ](/source/img/2.png)
+![ ](https://raw.githubusercontent.com/marcaas/picgo/main/2.png)
 
 选择环境变量并双击path项
 
-![ ](/source/img/3.png)
+![ ](https://raw.githubusercontent.com/marcaas/picgo/main/3.png)
 
 新建环境变量，地址为 ...(MYSYS2安装路径)...\msys64\mingw64\bin，保存并返回。到这一步，我们的MinGW就基本安装完成了。
 
@@ -209,3 +209,94 @@ gdb --version
 ```
 
 若均有版本号输出则证明安装成功。
+
+## Hello World
+
+为了检验编译器已经安装完成并且能够正确使用，我们用一个最简单的程序"HelloWorld"来检验。
+
+### 创建helloworld.cpp文件
+
+新建一个文件夹用VSCode打开它，此时可能会弹出是否信任该文件夹的窗口，我们直接选择信任（因为该文件夹是你自己创建的），新建一个helloworld.cpp文件。
+
+![ ](https://code.visualstudio.com/assets/docs/languages/cpp/new-file.png)
+
+![ ](https://code.visualstudio.com/assets/docs/languages/cpp/hello-world-cpp.png)
+
+添加helloworld的代码
+
+``` c++
+#include <iostream>
+
+int main()
+{
+    std::cout << "Hello World" << std::endl;
+}
+```
+
+使用ctrl+S保存代码。
+
+### 生成helloworld.exe可执行文件
+
+选择上方栏中的 **终端** > **运行生成任务**（快捷键为ctrl+shift+B）。
+
+![ ](https://code.visualstudio.com/assets/docs/languages/cpp/run-build-task.png)
+
+此时会弹出下拉菜单让我们选择要使用的编译器，这里我们选择g++。
+
+![ ](https://code.visualstudio.com/assets/docs/languages/cpp/gpp-build-task-msys64.png)
+
+这时观察左边的工作区就会发现多了一个helloworld.exe文件，则可执行文件生成成功。
+
+![ ](https://code.visualstudio.com/assets/docs/languages/cpp/hello-world-exe.png)
+
+### 运行Hello World
+
+在终端中输入
+
+``` bash
+.\helloworld
+```
+如果所有步骤都准确无误的话你会在终端中看到类似下面的反馈
+
+![ ](https://code.visualstudio.com/assets/docs/languages/cpp/run-hello-world.png)
+
+到这里我们已经简单地把C/C++环境部署在了计算机中并学会了使用VSCode调用编译器生成可执行文件。
+
+## Debug helloworld.cpp
+
+接下来我们找到上边栏的 **运行** > **启动调试**（快捷键F5），并在弹出的下拉窗口中选择g++
+
+![ ](https://code.visualstudio.com/assets/docs/cpp/mingw/build-and-debug-active-file.png)
+
+VSCode会创建一个 **launch.json** 文件
+
+``` json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "g++.exe - Build and debug active file",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "C/C++: g++.exe build active file"
+    }
+  ]
+}
+```
+
+该文件是关于g++调试的配置文件，到此我们的编译和调试功能均可用，后续更多细节可以参考[官方文档](https://code.visualstudio.com/docs/cpp/config-mingw)在此不多赘述。
