@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>marcaas&#39;s Blog</title>
-  <icon>http://example.com/icon.png</icon>
+  <icon>http://marcaas.github.io/icon.png</icon>
   <subtitle>a Blog that not Big</subtitle>
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="http://marcaas.github.io/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="http://marcaas.github.io/"/>
   <updated>2022-03-23T02:24:55.739Z</updated>
-  <id>http://example.com/</id>
+  <id>http://marcaas.github.io/</id>
   
   <author>
     <name>marcaas</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>关于windows系统使用MSYS2构建C/C++环境并配置VSCode的记录</title>
-    <link href="http://example.com/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/"/>
-    <id>http://example.com/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/</id>
+    <link href="http://marcaas.github.io/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/"/>
+    <id>http://marcaas.github.io/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/</id>
     <published>2022-03-21T12:51:02.000Z</published>
     <updated>2022-03-23T02:24:55.739Z</updated>
     
@@ -30,20 +30,20 @@
     
     
     
-    <category term="C/C++" scheme="http://example.com/tags/C-C/"/>
+    <category term="C/C++" scheme="http://marcaas.github.io/tags/C-C/"/>
     
-    <category term="环境配置" scheme="http://example.com/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    <category term="环境配置" scheme="http://marcaas.github.io/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
     
-    <category term="MSYS2" scheme="http://example.com/tags/MSYS2/"/>
+    <category term="MSYS2" scheme="http://marcaas.github.io/tags/MSYS2/"/>
     
-    <category term="MinGW64" scheme="http://example.com/tags/MinGW64/"/>
+    <category term="MinGW64" scheme="http://marcaas.github.io/tags/MinGW64/"/>
     
   </entry>
   
   <entry>
     <title>Hello World</title>
-    <link href="http://example.com/2022/03/21/hello-world/"/>
-    <id>http://example.com/2022/03/21/hello-world/</id>
+    <link href="http://marcaas.github.io/2022/03/21/hello-world/"/>
+    <id>http://marcaas.github.io/2022/03/21/hello-world/</id>
     <published>2022-03-21T11:51:21.757Z</published>
     <updated>2022-03-21T14:23:17.482Z</updated>
     
@@ -63,8 +63,8 @@
   
   <entry>
     <title>呼呼呼！看看我发现了什么？一个崭新的博文！！！</title>
-    <link href="http://example.com/2021/11/21/%E5%91%BC%E5%91%BC%E5%91%BC%EF%BC%81%E7%9C%8B%E7%9C%8B%E6%88%91%E5%8F%91%E7%8E%B0%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%80%E4%B8%AA%E5%B4%AD%E6%96%B0%E7%9A%84%E5%8D%9A%E6%96%87%EF%BC%81%EF%BC%81%EF%BC%81/"/>
-    <id>http://example.com/2021/11/21/%E5%91%BC%E5%91%BC%E5%91%BC%EF%BC%81%E7%9C%8B%E7%9C%8B%E6%88%91%E5%8F%91%E7%8E%B0%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%80%E4%B8%AA%E5%B4%AD%E6%96%B0%E7%9A%84%E5%8D%9A%E6%96%87%EF%BC%81%EF%BC%81%EF%BC%81/</id>
+    <link href="http://marcaas.github.io/2021/11/21/%E5%91%BC%E5%91%BC%E5%91%BC%EF%BC%81%E7%9C%8B%E7%9C%8B%E6%88%91%E5%8F%91%E7%8E%B0%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%80%E4%B8%AA%E5%B4%AD%E6%96%B0%E7%9A%84%E5%8D%9A%E6%96%87%EF%BC%81%EF%BC%81%EF%BC%81/"/>
+    <id>http://marcaas.github.io/2021/11/21/%E5%91%BC%E5%91%BC%E5%91%BC%EF%BC%81%E7%9C%8B%E7%9C%8B%E6%88%91%E5%8F%91%E7%8E%B0%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%80%E4%B8%AA%E5%B4%AD%E6%96%B0%E7%9A%84%E5%8D%9A%E6%96%87%EF%BC%81%EF%BC%81%EF%BC%81/</id>
     <published>2021-11-20T20:53:55.000Z</published>
     <updated>2022-03-21T11:32:25.000Z</updated>
     
@@ -80,22 +80,22 @@
     
     
     
-    <category term="类别测试1" scheme="http://example.com/categories/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%951/"/>
+    <category term="类别测试1" scheme="http://marcaas.github.io/categories/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%951/"/>
     
-    <category term="类别测试2" scheme="http://example.com/categories/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%951/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%952/"/>
+    <category term="类别测试2" scheme="http://marcaas.github.io/categories/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%951/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%952/"/>
     
-    <category term="类别测试3" scheme="http://example.com/categories/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%951/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%952/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%953/"/>
+    <category term="类别测试3" scheme="http://marcaas.github.io/categories/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%951/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%952/%E7%B1%BB%E5%88%AB%E6%B5%8B%E8%AF%953/"/>
     
     
-    <category term="博文" scheme="http://example.com/tags/%E5%8D%9A%E6%96%87/"/>
+    <category term="博文" scheme="http://marcaas.github.io/tags/%E5%8D%9A%E6%96%87/"/>
     
-    <category term="测试" scheme="http://example.com/tags/%E6%B5%8B%E8%AF%95/"/>
+    <category term="测试" scheme="http://marcaas.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
     
-    <category term="金色传说" scheme="http://example.com/tags/%E9%87%91%E8%89%B2%E4%BC%A0%E8%AF%B4/"/>
+    <category term="金色传说" scheme="http://marcaas.github.io/tags/%E9%87%91%E8%89%B2%E4%BC%A0%E8%AF%B4/"/>
     
-    <category term="歪比歪比" scheme="http://example.com/tags/%E6%AD%AA%E6%AF%94%E6%AD%AA%E6%AF%94/"/>
+    <category term="歪比歪比" scheme="http://marcaas.github.io/tags/%E6%AD%AA%E6%AF%94%E6%AD%AA%E6%AF%94/"/>
     
-    <category term="歪比巴卜" scheme="http://example.com/tags/%E6%AD%AA%E6%AF%94%E5%B7%B4%E5%8D%9C/"/>
+    <category term="歪比巴卜" scheme="http://marcaas.github.io/tags/%E6%AD%AA%E6%AF%94%E5%B7%B4%E5%8D%9C/"/>
     
   </entry>
   

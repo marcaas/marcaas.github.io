@@ -19,11 +19,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"marcaas.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="由于前一段时间感觉电脑的空间过于拥挤于是重装了windows的系统使得原来的代码环境都需要重新构建，而相比于Python的简单粗暴，C&#x2F;C++环境就显得有一些复杂，再加上以前都是直接从网上随便找几篇教程来效仿，一直都没有较为系统地安装过一次。在新系统安装VSCode的时候在官网文档中发现官方发布了教程且使用了MinGW64举例，这正符合我的需求，于是便有了这篇记录。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于windows系统使用MSYS2构建C&#x2F;C++环境并配置VSCode的记录">
-<meta property="og:url" content="http://example.com/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/index.html">
+<meta property="og:url" content="http://marcaas.github.io/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/index.html">
 <meta property="og:site_name" content="marcaas&#39;s Blog">
 <meta property="og:description" content="由于前一段时间感觉电脑的空间过于拥挤于是重装了windows的系统使得原来的代码环境都需要重新构建，而相比于Python的简单粗暴，C&#x2F;C++环境就显得有一些复杂，再加上以前都是直接从网上随便找几篇教程来效仿，一直都没有较为系统地安装过一次。在新系统安装VSCode的时候在官网文档中发现官方发布了教程且使用了MinGW64举例，这正符合我的需求，于是便有了这篇记录。">
 <meta property="og:locale" content="zh_CN">
@@ -51,11 +51,11 @@
 <meta name="twitter:image" content="https://w.wallhaven.cc/full/j3/wallhaven-j3o9dm.png">
 
 
-<link rel="canonical" href="http://example.com/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/">
+<link rel="canonical" href="http://marcaas.github.io/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/","path":"2022/03/21/关于使用MSYS2构建C-C-环境并配置VSCode/","title":"关于windows系统使用MSYS2构建C/C++环境并配置VSCode的记录"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://marcaas.github.io/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/","path":"2022/03/21/关于使用MSYS2构建C-C-环境并配置VSCode/","title":"关于windows系统使用MSYS2构建C/C++环境并配置VSCode的记录"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>关于windows系统使用MSYS2构建C/C++环境并配置VSCode的记录 | marcaas's Blog</title>
@@ -211,7 +211,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/">
+    <link itemprop="mainEntityOfPage" href="http://marcaas.github.io/2022/03/21/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8MSYS2%E6%9E%84%E5%BB%BAC-C-%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AEVSCode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/img/move_head.gif">
