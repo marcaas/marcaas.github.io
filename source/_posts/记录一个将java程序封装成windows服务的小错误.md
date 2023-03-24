@@ -95,7 +95,7 @@ nssm的使用方法可以双击nssm.exe看到
 ![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230324111501.png)
 
 ```sh
-cd C:\${yourPath}\${nssmversion}\${systemVersion}
+cd C:\${yourPath}\${nssmVersion}\${systemVersion}
 ```
 
 运行nssm的部署程序
