@@ -7,7 +7,8 @@ tags:
     - [windows服务]
 ---
 ![](https://w.wallhaven.cc/full/zy/wallhaven-zyxvqy.jpg)
-## 概述
+概述
+
 记录在将java程序封装成windows服务时的一个小细节，由于名称问题使得程序从运行java.exe变成了不断递归运行自己的问题。
 
 <!-- more -->
@@ -21,7 +22,7 @@ tags:
 * 编写服务脚本
 * 查看运行结果（日志）
 
-## 1. 编译源程序
+## 编译源程序
 这里我收到的是已经编译好的程序，在java项目根目录下的target文件夹内可以找到一个打包好的nanridata-bin.tar.gz文件。
 
 如果需要自己编译，可以使用maven命令编译源码并打包
