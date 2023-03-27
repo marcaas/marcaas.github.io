@@ -14,6 +14,9 @@ tags:
 
 * 模块
 * 包
+* 第三方模块
+* pip
+* ```__init__```
 
 ## 模块
 
@@ -23,7 +26,15 @@ tags:
 
 包是一个包含多个模块的特殊目录（文件夹），目录下有一个特殊的文件__init__.py，目的是为了import + 包名可以一次性导入包中所有的模块。
 
-# ```__init__.py```
+## 第三方模块
+
+第三方模块通常是指由第三方开发团队开发的并且被程序员广泛使用的Python包/模块。
+
+## pip
+
+pip是一个通用的Python包管理工具，提供了对Python包的查找、下载、安装、卸载等功能。
+
+## ```__init__.py```
 
 是一个对外的接口，若需要把我们的模块在外界使用，则需要编辑配置init文件，来指定对外的列表，例如：
 
@@ -53,3 +64,69 @@ major1.
 此时我们如果把__init__.py中的test1一行注释掉，则会观察到，代码提示中只剩下了test2
 
 ![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140736.png)
+
+以上我们可以看出__init__.py文件的作用。
+
+# 构建自己的第三方库（whl格式）
+
+* 创建并编辑setup.py文件
+* 安装setuptools
+* 打包
+* 安装
+* 卸载
+
+## 创建setup.py文件
+
+首先，我的文件结构如下
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327161801.png)
+
+其中__init__.py中引入hellotest.py和helloworld.py两个模块
+
+```py
+from . import hellotest
+from . import helloworld
+```
+
+setup.py文件为打包的配置文件，内容如下
+
+```py
+# 打包成模块压缩包
+from setuptools import setup
+from setuptools import find_packages
+
+setup(
+    name="hello",  # 包名
+    version="0.1",  # 版本
+    # 最重要的就是py_modules和packages
+    py_modules=["hello.hellotest","hello.helloworld"],  # py_modules : 打包的.py文件
+    packages=["hello"],  # packages: 打包的python文件夹
+    # keywords=("AI", "Algorithm"),  # 程序的关键字列表
+    description="AIAgorithmPack",                 # 简单描述
+    long_description="AIAgorithmPack for python", # 详细描述
+    # license="MIT Licence",  # 授权信息
+    url="https://marcaas.github.io/",  # 官网地址
+    author="marcaas",  # 作者
+    author_email="thy777marcaas@gmail.com",  # 作者邮箱
+    # packages=find_packages(), # 需要处理的包目录（包含__init__.py的文件夹）
+    # platforms="any",  # 适用的软件平台列表
+    # install_requires=[],  # 需要安装的依赖包
+    # 项目里会有一些非py文件,比如html和js等,这时候就要靠include_package_data和package_data来指定了。
+    # scripts=[],  # 安装时需要执行的脚本列表
+    # entry_points={     # 动态发现服务和插件
+    #     'console_scripts': [
+    #         'jsuniv_sllab = jsuniv_sllab.help:main'
+    #     ]
+    # }
+
+)
+
+```
+
+## 安装setuptools
+
+## 打包
+
+## 安装
+
+## 卸载
