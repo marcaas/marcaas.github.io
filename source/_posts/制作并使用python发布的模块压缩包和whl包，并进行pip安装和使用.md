@@ -69,13 +69,11 @@ major1.
 
 # 构建自己的第三方库（whl格式）
 
-* 创建并编辑setup.py文件
 * 安装setuptools
+* 创建并编辑setup.py文件
 * 打包
 * 安装
 * 卸载
-
-## 创建setup.py文件
 
 首先，我的文件结构如下
 
@@ -88,7 +86,14 @@ from . import hellotest
 from . import helloworld
 ```
 
-setup.py文件为打包的配置文件，内容如下
+## 安装setuptools
+```sh
+pip install setuptools
+```
+
+## 创建setup.py文件
+
+setup.py文件为打包的配置文件，内容如下，注意这里的打包的py文件和包文件夹的目录结构要和真实文件的结构相对应。
 
 ```py
 # 打包成模块压缩包
@@ -123,10 +128,46 @@ setup(
 
 ```
 
-## 安装setuptools
-
 ## 打包
 
+cd到setup.py文件所在目录，执行命令
+
+```sh
+python setup.py bdist_wheel
+```
+
+运行后可以看到文件结构发生了改变
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327162956.png)
+
+我们关注dist文件夹中的whl文件，这就是我们打包好的本地第三方库。
+
 ## 安装
+
+我们新建一个文件夹，并把whl文件放到里面
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163408.png)
+
+cd到testy文件夹，命令行运行
+
+```sh
+pip install hello-0.1-py3-none-any.whl
+```
+
+可以看到pip先在远程仓库寻找叫这个名字的包，没找到则在本地目录中找并安装。
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163553.png)
+
+下面我们测试一下，命令行输入
+
+```sh
+python
+```
+
+进入python环境
+
+输入如下指令，可以看到我们的模块被运行了
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327165751.png)
 
 ## 卸载
