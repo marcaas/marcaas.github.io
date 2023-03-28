@@ -5,6 +5,7 @@ tags:
     - [Maven]
     - [Springboot]
 ---
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/wallhaven-l3xk6q.jpg)
 之前在创建Springboot项目时出现了pom爆红的情况，maven也不下载依赖，怀疑可能是maven版本过高导致，故重新对maven进行降级和配置。
   
 <!-- more -->
