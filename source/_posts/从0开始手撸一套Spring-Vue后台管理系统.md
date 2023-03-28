@@ -11,14 +11,14 @@ description: 初次尝试使用Springboot + VUE框架搭建后台管理网站
 
 <!-- more -->
 
-# 一、环境配置
+# 环境配置
 * jdk 1.8
 * mysql 5.7+
 * node 16.19.0
 * navicat 
 * IDEA2021.3
-# 二、使用Vue进行前端框架搭建
-## 1. 创建Vue项目
+# 使用Vue进行前端框架搭建
+## 创建Vue项目
 ```
 vue creat (vuename)
 ```
@@ -40,7 +40,7 @@ npm run serve
 
 ![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230303144110.png)
 
-## 2. 安装Element插件
+## 安装Element插件
 这里推荐使用npm安装
 ```
 npm i element-ui -S
@@ -76,8 +76,8 @@ Home.vue（主要修改处已用红色框标出）
 
 具体网页美化请参照[Element组件官网](https://element.eleme.cn/#/zh-CN/component/installation)并结合自己审美进行修改。
 
-# 三、使用Springboot进行后端搭建
-## 1. 项目依赖
+# 使用Springboot进行后端搭建
+## 项目依赖
 * Lombok
 * Spring Web
 * MySQL Driver
@@ -85,7 +85,22 @@ Home.vue（主要修改处已用红色框标出）
 
 此处默认已安装MySQL和Navicat
 
-我的测试用数据库配置如下，其中数据库连接地址中test字段为用户数据库的名字，需根据实际情况修改，serverTimezone也应根据所在地自行更改时区
+## 项目结构
+
+* src
+* pom.xml
+
+使用idea的springboot框架自动创建项目后，得到如下项目结构
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328103910.png)
+
+其中src是主程序文件夹，pom.xml是依赖的配置文件，包含了依赖的版本等信息。
+
+## 配置数据库
+
+数据库配置文件在/src/main/resources目录下的application.yml文件，需要先对它进行配置
+
+我的测试用数据库配置如下，其中数据库连接地址中test字段为用户数据库的名字，需根据实际情况修改，serverTimezone也应根据所在地自行更改时区（GMT%2b8为东八区）
 
 ```yml
 ## 应用名称
@@ -100,11 +115,13 @@ spring:
 # 数据库连接地址
     url: jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2b8
 # 数据库用户名&密码：
-    username: root
-    password: ****
+    username: ****
+    password: ******
 # 应用服务 WEB 访问端口
 server:
   port: 9090
+mybatis:
+  mapper-locations: classpath:mapper/*.xml #扫描所有mybatis文件
 ```
 
 首先在springboot文件目录下创建entity层（也叫model层、domain层）用于存放我们的实体类，与数据库中的属性基本保持一致，实现set和get的方法（此处使用的@Data注解包含了set和get方法，故没有在下面体现）
