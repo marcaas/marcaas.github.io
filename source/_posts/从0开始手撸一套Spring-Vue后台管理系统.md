@@ -1,5 +1,5 @@
 ---
-title: 从0开始手撸一套SpringBoot+Vue后台管理系统
+title: 从0开始搭建一套SpringBoot+Vue后台管理系统
 date: 2023-03-02 11:15:28
 tags:
     - [SpringBoot]
@@ -7,6 +7,10 @@ tags:
     - [后端]
 description: 初次尝试使用Springboot + VUE框架搭建后台管理网站
 ---
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/wallhaven-j3m8y5.png)
+
+<!-- more -->
+
 # 一、环境配置
 * jdk 1.8
 * mysql 5.7+
