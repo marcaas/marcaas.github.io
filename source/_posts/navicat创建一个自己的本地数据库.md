@@ -1,10 +1,10 @@
 ---
-title: navicat创建一个自己的本地数据库
+title: Navicat和MySQL的使用
 date: 2023-03-28 11:06:46
 tags:
     - [navicat]
     - [数据库]
-    - [mySQL]
+    - [MySQL]
 ---
 ![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/wallhaven-y8622k.jpg)
 <!-- more -->
