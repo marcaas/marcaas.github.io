@@ -5,6 +5,7 @@ tags:
     - [python]
     - [package]
 ---
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/wallhaven-9mjoy1.png)
 
 把自己的程序打包给别人去用，此处的包和打包的概念不一样，而是python中的package，是指发布的模块压缩包或whl包
 
