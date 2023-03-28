@@ -66,4 +66,4 @@ maven项目导入依赖成功后我又创建了一个Springboot项目进行测�
 
 ![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230309092744.png)
 
-于是我将其修改为2.7.6后重新建立依赖，没有报错，此帖完。
+于是我将其修改为2.7.6后重新建立依赖，没有报错，至此。
