@@ -169,6 +169,30 @@ python
 
 输入如下指令，可以看到我们的模块被运行了
 
-![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327165751.png)
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085954.png)
 
 ## 卸载
+
+使用指令
+
+```sh
+pip list
+```
+
+查看已安装的包，可以看到我们之前构建的hello包赫然在列
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085324.png)
+
+现在我们来卸载它
+
+使用命令
+
+```sh
+pip uninstall hello
+```
+
+卸载成功
+
+![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085549.png)
+
+至此。
