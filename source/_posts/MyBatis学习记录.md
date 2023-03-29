@@ -110,4 +110,4 @@ MyBatis免除了几乎所有的JDBC代码以及设置参数和获取结果集的
 
 ![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230329154836.png)
 
-在idea中新建模块
+在idea中新建Maven模块mybatis-demo
