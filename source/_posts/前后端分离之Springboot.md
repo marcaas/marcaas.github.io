@@ -89,9 +89,11 @@ public class User {
 }
 ```
 
+这里使用了lombok插件的@Data注解来代替繁琐的对每个变量的get和set方法，更加简洁
+
 在springboot文件夹下创建mapper层（也叫dao层），对数据库进行数据持久化操作，方法语句是直接针对数据库操作的，主要实现一些增删改查操作，在mybatis中方法主要与xxx.xml内相互一一映射
 
-在mapper层创建Interface 接口类UserMapper
+在mapper层创建Interface接口类UserMapper
 
 ![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230309114057.png)
 
@@ -101,9 +103,9 @@ public class User {
 package com.marcaas.springboot.mapper;
 
 import com.marcaas.springboot.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 @Mapper
@@ -114,9 +116,22 @@ public interface UserMapper {
     @Select("INSERT into sys_user(username,password,nickname,email,phone,address) " +
             "VALUES(#{username},#{password},#{nickname},#{email},#{phone},#{address})")
     Integer insert(User user);
+
+    Integer update(User user);
+
+    @Delete("delete from sys_user where id = #{id}")
+    Integer deleteById(@Param("id") Integer id);
+
+    @Select("select * from sys_user limit #{pageNum}, #{pageSize}")
+    List<User> selectPage(Integer pageNum, Integer pageSize);
+
+    @Select("select count(*) from sys_user")
+    Integer selectTotal();
 }
 
 ```
+
+此处的注解Select是Mybatis提供的
 
 创建controller层（也叫web层），负责具体模块的业务流程控制，需要调用service逻辑设计层的接口来控制业务流程。因为service中的方法是我们使用到的，controller通过接受前端H5或App传来的参数进行业务操作，再将处理结果返回到前端。
 
@@ -127,10 +142,13 @@ package com.marcaas.springboot.controller;
 
 import com.marcaas.springboot.entity.User;
 import com.marcaas.springboot.mapper.UserMapper;
+import com.marcaas.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -139,18 +157,43 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-    // 新增接口
+    @Autowired
+    private UserService userService;
+
+    // 新增或更新接口
     @PostMapping
     public Integer save(@RequestBody User user) {
-       return userMapper.insert(user);
+       return userService.save(user);
     }
 
-    // 查询接口
+    // 查询所有数据
     @GetMapping
     public List<User> index() {
         return userMapper.findAll();
     }
 
+    // 按id删除数据
+    @DeleteMapping("/{id}")
+    public Integer delete(@PathVariable Integer id) {
+        return userMapper.deleteById(id);
+    }
+
+    // 分页查询
+    // 接口路径：/user/page?pageNum=1&pageSize=10
+    // @RequestParam接受
+    @GetMapping("/page")
+    public Map<String, Object> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        pageNum = (pageNum - 1) * pageSize;
+        List<User> data = userMapper.selectPage(pageNum, pageSize);
+        Integer total = userMapper.selectTotal();
+        Map<String, Object> res = new HashMap<>();
+        res.put("data", data);
+        res.put("total", total);
+        return res;
+    }
+
 }
 
 ```
+## 实现增删改查
+
