@@ -5,7 +5,7 @@ tags:
     - [Docker]
 ---
 
-这是简介
+关于Docker的安装和部署的相关操作
 
 <!-- more -->
 

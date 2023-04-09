@@ -6,7 +6,7 @@ tags:
     - [封装]
     - [windows服务]
 ---
-![](https://w.wallhaven.cc/full/zy/wallhaven-zyxvqy.jpg)
+
 概述
 
 记录在将java程序封装成windows服务时的一个小细节，由于名称问题使得程序从运行java.exe变成了不断递归运行自己的问题。

@@ -5,7 +5,7 @@ tags:
     - [MyBatis]
 ---
 
-简介
+MyBatis的学习记录
 
 <!-- more -->
 

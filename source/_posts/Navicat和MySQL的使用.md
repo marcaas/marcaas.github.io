@@ -6,7 +6,7 @@ tags:
     - [数据库]
     - [MySQL]
 ---
-![](https://raw.githubusercontent.com/marcaas/hexoPicgo/master/wallhaven-y8622k.jpg)
+Navicat和MySQL的使用
 <!-- more -->
 # 新建连接
 
