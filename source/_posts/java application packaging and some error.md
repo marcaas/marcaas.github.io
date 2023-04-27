@@ -1,5 +1,5 @@
 ---
-title: 记录一个将java程序封装成windows服务时由于命名不规范而发生的脚本递归调用自身的错误
+title: java程序打包部署为windows服务与过程中的一个错误的记录
 date: 2023-03-24 09:40:19
 tags:
     - [java]
