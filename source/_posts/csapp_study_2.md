@@ -1,5 +1,5 @@
 ---
-title: csapp_study_2 信息的表示和处理
+title: csapp_study_2 -- 信息的表示和处理
 date: 2023-04-26 10:44:13
 tags:
     - [csapp]

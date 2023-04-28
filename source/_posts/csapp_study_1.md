@@ -1,5 +1,5 @@
 ---
-title: csapp学习笔记 1 —— 计算机系统漫游
+title: csapp_study_1 —— 计算机系统漫游
 date: 2023-04-23 11:17:03
 tags:
     - [csapp]
