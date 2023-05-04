@@ -6,7 +6,9 @@ tags:
 - [环境配置]
 ---
 
-word用这打公式过于麻烦，于是把扔了好几年的LaTeX给捡回来。这里我选择在WSL（Windows Subsystem for Linux）中安装TeX Live。并使用vscode作为编辑器进行文档编辑。
+word用着打公式过于麻烦，于是把扔了好几年的LaTeX给捡回来。这里我选择在WSL（Windows Subsystem for Linux）中安装TeX Live，并将其安装在用户个人文件夹中。并使用vscode作为编辑器进行文档编辑。
+
+本文参考[无锤乙醇](https://syvshc.github.io/)的[latex-tutorial](https://syvshc.github.io/2022-04-20-latex-tutorial/#fn1)以及啸行编写的[install-latex-guide-zh-cn](http://mirrors.ctan.org/info/install-latex-guide-zh-cn/install-latex-guide-zh-cn.pdf)，仅作个人学习记录使用。
 
 <!-- more -->
 
@@ -192,3 +194,5 @@ sudo visudo
 ```sh
 sudo tlmgr remove --all
 ```
+
+至此
