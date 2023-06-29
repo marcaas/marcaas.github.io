@@ -20,6 +20,11 @@
 ]]></content>
   </entry>
   <entry>
+    <title>test</title>
+    <url>/2023/06/29/test/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>csapp_study_2 -- 信息的表示和处理</title>
     <url>/2023/04/26/csapp_study_2/</url>
     <content><![CDATA[<p>从这一章开始，我们对计算机系统的各个部分进行深入的学习，第二章主要讲述了信息的表示和处理，主要分为以下四个部分</p>
