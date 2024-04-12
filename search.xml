@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>《我曾七次鄙自己的灵魂》——纪伯伦</title>
+    <url>/2023/04/04/%E3%80%8A%E6%88%91%E6%9B%BE%E4%B8%83%E6%AC%A1%E9%84%99%E8%87%AA%E5%B7%B1%E7%9A%84%E7%81%B5%E9%AD%82%E3%80%8B%E2%80%94%E2%80%94%E7%BA%AA%E4%BC%AF%E4%BC%A6/</url>
+    <content><![CDATA[<p>The first time when I saw her being meek that she might attain height.</p>
+<p>第一次，当我本可进取时，却故作谦卑；</p>
+<p>The second time when I saw her limping before the crippled.</p>
+<p>第二次，是当我看到自己在瘸子面前跛行而过时；</p>
+<p>The third time when she was given to choose between the hard and the easy, and she chose the easy.​</p>
+<p>第三次，当我在难易之间抉择时，习惯性选择了容易的；</p>
+<p>The forth time when she committed a wrong, and comforted herself that others also commit wrong.</p>
+<p>第四次，是当我犯了错，却借由别人也会犯错来宽慰自己时；</p>
+<p>The fifth time when she forbore for weakness, and attributed her patience to strength.</p>
+<p>第五次，当我的因为软弱一味忍让时，却把忍让说成了坚韧；</p>
+<p>The sixth time when she despised the ugliness of a face, and knew not that it was one of her own masks.</p>
+<p>第六次，是当我鄙夷一张丑恶的嘴脸，却不知那正是自己面具中的一副时；</p>
+<p>The seventh time when she sang a song of praise, and deemed it a virtue.</p>
+<p>第七次，是当我吟唱圣歌，却自诩为一种美德时。</p>
+]]></content>
+      <tags>
+        <tag>-[诗歌]</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>csapp_study_2 -- 信息的表示和处理</title>
+    <url>/2023/04/26/csapp_study_2/</url>
+    <content><![CDATA[<p>从这一章开始，我们对计算机系统的各个部分进行深入的学习，第二章主要讲述了信息的表示和处理，主要分为以下四个部分</p>
+<ol>
+<li>信息存储</li>
+<li>整数表示</li>
+<li>整数运算</li>
+<li>浮点数</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="信息的存储"><a href="#信息的存储" class="headerlink" title="信息的存储"></a>信息的存储</h1><p>通常情况下，程序将内存视为一个非常大的数组，数组的元素是由一个个的字节组成，每个字节都由一个唯一的数字来表示，我们称为地址（address），这些所有地址的集合就称为虚拟地址空间（virtual address space）</p>
+<h2 id="字节"><a href="#字节" class="headerlink" title="字节"></a>字节</h2><h3 id="概念以及表示法"><a href="#概念以及表示法" class="headerlink" title="概念以及表示法"></a>概念以及表示法</h3><p>字节（byte）是信息存储的基本单元，一个字节是由8个位（bit）组成，在二进制表示法中，每一个位的值可能有两种状态，0或者1，当这8个位全为0时，表示一个字节的最小值，当这8个位全为1时，表示最大值，如果用十进制来表示，那么一个字节的取值范围就在0~255之间（包括0和255），我们把这种按照一位一位表示数据的方式称为位模式，使用二进制表示法比较冗长，而十进制表示法与位模式之间的转换又比较麻烦，因此我们引入十六进制数来表示位模式</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230426110331.png"></p>
+<h3 id="十六进制数"><a href="#十六进制数" class="headerlink" title="十六进制数"></a>十六进制数</h3><p>我们熟悉的十进制数，是由数字0<del>9组成的，对于十六进制数，则是由数字0</del>9和字母A<del>F来表示16个可能的数值。在C语言中，十六进制数是以0x开头，这个x可以是小写，也可以是大写，字母部分既可以全部是大写，也可以全部是小写，甚至是大小写混合也是正确的，下图展示了0</del>15这16个数的十六进制、十进制以及二进制的表示方法</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230426111808.png"></p>
+<p>有时候我们需要进行数据的进制转换，csapp原书中介绍了一个小技巧，记住16进制数A、C、F所对应的十进制数，那么B、D的数值可以由A和C的加一得到，E的数值可以由F减一得到，十六进制与二进制之间的转换比较简单，通过展开每个十六进制数字，然后将他转换成对应的二进制格式即可，这样我们就得到了二进制的表示方法</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230426112418.png"></p>
+<p>反过来，给出一个二进制数，将他转换成十六进制，我们从右边开始，每四位为一组，最左边如果小于四位（总位数不是四的倍数），这时将前面进行补0，然后将每四位一组的二进制数进行一一转换，即可得到对应的十六进制数</p>
+<h3 id="快速转化"><a href="#快速转化" class="headerlink" title="快速转化"></a>快速转化</h3><h4 id="形如-2-n-的数快速转为二进制数"><a href="#形如-2-n-的数快速转为二进制数" class="headerlink" title="形如 $2^n$ 的数快速转为二进制数"></a>形如 $2^n$ 的数快速转为二进制数</h4><p>如图所示，2的几次方转换成二进制就是1后面跟几个0</p>
+<h4 id="形如-2-n-的数快速转为十六进制数"><a href="#形如-2-n-的数快速转为十六进制数" class="headerlink" title="形如 $2^n$ 的数快速转为十六进制数"></a>形如 $2^n$ 的数快速转为十六进制数</h4><p>从刚才讲的十六进制与二进制的转换可知，十六进制的一个0可以代表4个二进制0我们可以将 $n$ 分解成 $i + 4j$ ，其中 $i$ 的可能的值为 $0, 1, 2, 3$ 分别对应 $1, 2, 4, 8$ ,用一个例子说明：</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230504160106.png"></p>
+]]></content>
+      <tags>
+        <tag>csapp</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>csapp_study_1 —— 计算机系统漫游</title>
+    <url>/2023/04/23/csapp_study_1/</url>
+    <content><![CDATA[<h1 id="全书概述"><a href="#全书概述" class="headerlink" title="全书概述"></a>全书概述</h1><ol>
+<li>第一章 ：计算机系统漫游，用一个简单的helloworld程序从开始到结束的一生来介绍计算机系统的主要概念。</li>
+<li>第二到六章：程序结构和执行</li>
+<li>第七到九章：应用程序在计算机系统上运行的相关知识</li>
+<li>第九章到最后：程序间的交互和通信</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="计算机系统漫游"><a href="#计算机系统漫游" class="headerlink" title="计算机系统漫游"></a>计算机系统漫游</h1><h2 id="漫游（一）"><a href="#漫游（一）" class="headerlink" title="漫游（一）"></a>漫游（一）</h2><h3 id="Hello-程序"><a href="#Hello-程序" class="headerlink" title="Hello 程序"></a>Hello 程序</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;hello,world\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>保存得到一个后缀为.c的文件 —— hello.c</p>
+<h3 id="编译系统"><a href="#编译系统" class="headerlink" title="编译系统"></a>编译系统</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">linux&gt; gcc -o hello hello.c</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423131251.png"></p>
+<p>通过编译器gcc对hello.c进行处理,生成可执行文件 —— hello, 此过程虽然是通过一条指令实现的, 但是整个编译过程却是十分复杂的, 大致可以分为四个阶段, 分别为预处理、编译、汇编以及链接</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423131602.png"></p>
+<h4 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h4><p>预处理器会读取hello.c文件中头文件的内容，如</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>并将其中的内容直接插入到源程序中，结果就得到了另一个c程序，这个经过预处理器处理后得到的文件通常以.i结尾</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423132059.png"></p>
+<h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><p>编译器将hello.i文件翻译为hello.s文件，此过程被称为编译，其中编译这一阶段包括词法分析、语法分析、语义分析、中间代码生成以及优化等等一系列的中间操作。</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423132539.png"></p>
+<h4 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h4><p>汇编器根据指令集将汇编程序hello.s翻译成机器指令，并且把这一系列的机器指令按照固定的规则进行打包，得到可重定位目标文件 —— hello.o</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423132807.png"></p>
+<p>此时hello.o虽然是一个二进制文件，但是还不能执行，还要经历最后一个阶段 —— 链接</p>
+<h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><p>在hello这个程序中，我们调用了printf函数，这个函数是标准C库中的一个函数，每一个C语言的编译器都会提供，通俗点讲，就是当你要调用printf这个函数时，编译器就知道你要在屏幕上打印输出内容，它会将这行代码翻译成计算机可以理解的指令，这个printf函数在名为printf.o的文件中，它是一个提前编译好的目标文件，链接器（ld）负责把hello.o和printf.o进行合并，当然这个合并需要遵守一些规则，正是因为连接器要对hello.o和printf.o进行调整，所以hello.o才会被称为可重定位目标文件，最终经过链接阶段可以得到可执行目标文件 —— hello，此时得到的hello就可以被加载到内存中执行了</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423133512.png"></p>
+<p>上述就是编译系统的一个简单概述</p>
+<h3 id="为什么要理解编译系统如何工作"><a href="#为什么要理解编译系统如何工作" class="headerlink" title="为什么要理解编译系统如何工作"></a>为什么要理解编译系统如何工作</h3><ol>
+<li>理解编译系统可以优化程序的性能，现代编译器是非常成熟的工具，通常可以生成很好的代码，我们没有必要为了写出高效的代码而去研究编译器的内部是如何工作的，但是还是需要对机器执行的代码有一个基本的了解，这样我们就知道编译器把不同的C代码转换成的机器代码是什么</li>
+<li>理解编译系统可以帮助我们理解链接过程中出现的错误，如果所有的程序都像helloworld一样简单那的确没有必要去理解编译系统，但当你开始构造大型程序时，往往涉及各种函数库的调用，根据以往的经验，一些奇奇怪怪的错误往往都是与链接器有关的，例如：静态变量和全局变量的区别是什么？静态库和动态库的区别是什么？更严重的是，还有一些错误直到程序运行的时候才会出现</li>
+<li>避免安全漏洞，多年以来，缓冲区溢出是导致互联网安全漏洞的主要原因，如何避免写出的代码存在安全漏洞，第一步就是要理解数据和控制信息在程序栈上是如何存储的，了解不严谨不规范的书写方式会引起什么样的后果，在第三章中，会讲述堆栈的原理和缓冲区溢出错误，以及如何利用操作系统、编译器来降低攻击的风险</li>
+</ol>
+<h2 id="漫游（二）"><a href="#漫游（二）" class="headerlink" title="漫游（二）"></a>漫游（二）</h2><h3 id="通过shell运行hello程序"><a href="#通过shell运行hello程序" class="headerlink" title="通过shell运行hello程序"></a>通过shell运行hello程序</h3><p>通过上一小节的内容，我们已经将生成的可执行目标文件放在系统的磁盘上</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423135154.png"></p>
+<p>为了在linux系统上运行可执行程序，第一步我们需要打开一个shell程序，然后在shell程序中输入相应可执行文件的文件名</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">linux&gt; ./hello</span><br></pre></td></tr></table></figure>
+
+<p>不了解linux系统的同学可能对shell比较陌生，这里做一个简单的介绍，shell是一个命令解释程序，它输出一个提示符 &gt; 来等待一个命令行的输入，然后执行这个命令，如果该命令行的第一个单词不是内置的shell命令，那么shell就会假设这是一个可执行文件的名字 ，对这个文件进行加载并运行。在第八章的课程中，我们将通过一个实验来讲述如何实现一个简单的shell程序</p>
+<p>接下来我们来看一下hello程序运行时，系统发生了什么，不过在此之前我们先来看一下计算机系统的硬件组成</p>
+<h3 id="计算机系统的硬件组成"><a href="#计算机系统的硬件组成" class="headerlink" title="计算机系统的硬件组成"></a>计算机系统的硬件组成</h3><h4 id="中央处理单元（CPU），也称处理器"><a href="#中央处理单元（CPU），也称处理器" class="headerlink" title="中央处理单元（CPU），也称处理器"></a>中央处理单元（CPU），也称处理器</h4><p>实际上CPU的内部结构是非常复杂的，此处为了介绍hello程序的运行，我们采用简化的框图来大概示意一下整个CPU的结构</p>
+<h5 id="程序计数器（Program-Count，PC）"><a href="#程序计数器（Program-Count，PC）" class="headerlink" title="程序计数器（Program Count，PC）"></a>程序计数器（Program Count，PC）</h5><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423140420.png"></p>
+<p>PC实质上是一个大小为一个字的存储区域（对于32位的机器，一个字是4字节，对于64位的机器，一个字是8个字节），说白了PC就是一个4字节或者8字节的存储空间，里面存放的是某一条指令的地址，从处理器上电的一瞬间到断电的那一瞬间，处理器就在不断地执行PC指向的指令，然后更新PC，使其指向下一条要执行的指令（注意：这个下一条指令与刚刚执行的指令不一定是相邻的）</p>
+<h5 id="寄存器文件（Register-file）"><a href="#寄存器文件（Register-file）" class="headerlink" title="寄存器文件（Register file）"></a>寄存器文件（Register file）</h5><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423140917.png"></p>
+<p>他就是CPU内部的一个存储设备，寄存器文件是由一些单字长的寄存器构成的，每个寄存器都有自己唯一的名字，通俗点讲，寄存器可以理解为一个临时存放数据的空间</p>
+<h5 id="算术逻辑单元（ALU）"><a href="#算术逻辑单元（ALU）" class="headerlink" title="算术逻辑单元（ALU）"></a>算术逻辑单元（ALU）</h5><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423141401.png"></p>
+<p>ALU是算术逻辑单元的简称，是能实现多组算术运算和逻辑运算的组合逻辑电路，是中央处理器(CPU)的执行单元，也是所有中央处理器的核心组成部分。ALU的输入是要进行操作的数据（称为操作数）以及来自控制单元的指令代码，用来指示进行哪种运算。它的输出即为运算结果。</p>
+<h4 id="主存（也称为内存）"><a href="#主存（也称为内存）" class="headerlink" title="主存（也称为内存）"></a>主存（也称为内存）</h4><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423141816.png"></p>
+<p>处理器在执行程序时，内存主要存放程序的指令以及数据，从物理上讲，内存是由随机动态存储器芯片组成，从逻辑上讲，内存可以看成一个从零开始的大数组，每个字节都有相应的地址，关于内存更多的内容，在第六章中有详细的讲解</p>
+<h4 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h4><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423142138.png"></p>
+<p>内存和处理器之间通过总线来进行数据传递，实际上总线贯穿了整个计算机系统它负责将信息从一个部件传递到另外一个部件，通常总线被设计成传送固定长度的字节快，也就是字（word），这个字到底是多少个字节，各个系统中是不一样的</p>
+<h4 id="各种输入输出设备"><a href="#各种输入输出设备" class="headerlink" title="各种输入输出设备"></a>各种输入输出设备</h4><p>例如，键盘、鼠标、显示器以及磁盘等等，每一个输入输出设备都通过一个控制器或者适配器与IO总线相连控制器与适配器主要区别在于它们的封装方式，无论是控制器还是适配器，它们的功能都是在IO设备与IO总线之间传递数据，更多IO的知识，将在第6章和第10章进行详细的讲解</p>
+<h3 id="hello程序的执行"><a href="#hello程序的执行" class="headerlink" title="hello程序的执行"></a>hello程序的执行</h3><p>首先，我们通过键盘输入 “.&#x2F;hello” 的字符串，shell程序会将输入的字符逐一读入寄存器，处理器会把hello这个字符串放入内存中，整个流程如下图所示</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423145141.png"></p>
+<p>当我们完成输入按下回车键时，shell程序就知道我们已经完成了命令的输入，然后执行一系列的指令来加载可执行文件hello，这些指令将hello中的数据和代码从磁盘复制到内存，数据就是我们要显示输出的 “hello,world\n” ，这个复制过程将利用DMA（Direct Memory Access）技术，数据可以不经过处理器，从磁盘直接到达内存</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423145639.png"></p>
+<p>当可执行文件hello中的代码和数据被加载到内存中，处理器就开始执行main函数中的代码，CPU会将 “hello,world\n” 这个字符串从内存复制到寄存器文件，然后再从寄存器文件复制到显示设备，最终hello, world显示在屏幕上</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423145852.png"></p>
+<p>从hello程序的执行过程我们可以看出，系统就算执行如此简单的程序，数据信息仍旧需要在磁盘、内存、处理器以及IO设备之间进行搬运，数据从一个地方搬运到另一个地方需要花费时间，系统设计人员的一个主要任务就是缩短信息搬运所花费的时间</p>
+<p>通常情况下大容量的存储设备的存取速度要比小容量的慢，运行速度更快的设备的价格比低速设备更贵</p>
+<h3 id="计算机系统的信息存储层次结构"><a href="#计算机系统的信息存储层次结构" class="headerlink" title="计算机系统的信息存储层次结构"></a>计算机系统的信息存储层次结构</h3><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230423155427.png"></p>
+<p>从这个层次结构来看，从上到下，设备的访问速度越来越慢，容量越来越大，每字节的造价也越来越便宜，这个存储层次的主要思想，就是上一层存储设备是下一层存储设备的高速缓存，关于缓存的更多内容将在第六章会有更加详细的讲解</p>
+<h2 id="漫游（三）"><a href="#漫游（三）" class="headerlink" title="漫游（三）"></a>漫游（三）</h2><p>上一节介绍了hello程序运行的细节，无论是shell程序还是hello程序，它们都没有直接访问键盘、显示器、磁盘这些硬件设备，真正操控硬件的是操作系统，我们可以把操作系统看成是应用程序和硬件之间的中间层，所有应用程序对硬件的操作必须通过操作系统来完成，这样设计的目的主要有两个：</p>
+<ul>
+<li>防止硬件被失控的应用程序滥用</li>
+<li>操作系统提供统一的机制来控制这些复杂的底层硬件</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425084731.png"></p>
+<h3 id="几种抽象"><a href="#几种抽象" class="headerlink" title="几种抽象"></a>几种抽象</h3><p>为实现上述功能，操作系统引入了几个抽象概念，例如：文件是对IO设备的抽象，虚拟内存是对内存和磁盘IO的抽象，进程是对处理器、内存以及IO设备的抽象</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425085018.png"></p>
+<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>下面我们借助hello程序运行的场景来解释一下进程，假设示例场景中只有两个并发的进程，shell进程和hello进程，最开始的时候，只有shell进程在运行，即shell在等待命令行的输入</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425085603.png"></p>
+<p>当我们通过shell进程加载hello进程时，shell进程通过系统调用来执行我们的请求，系统调用会将控制权从shell进程传递给操作系统，操作系统保存shell进程的上下文，然后创建一个新的进程及其上下文，然后将控制权交给hello进程</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425090055.png"></p>
+<p>hello进程执行完后，操作系统就会恢复shell进程的上下文，并将控制权交给shell进程，之后shell进程继续等待下一个命令的输入</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425090159.png"></p>
+<h4 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h4><p>刚刚我们提到了一个名词，上下文（context）。这里稍微解释一下，操作系统会跟踪进程运行中所需要的所有状态信息，这种状态称为上下文，例如当前PC和寄存器的值，以及内存中的内容等等</p>
+<p>在第八章，我们将详细讲述关于进程的知识，现代操作系统中，一个进程实际上由多个线程组成，每个线程都运行在进程的上下文中，共享代码和数据，由于网络服务器对并行处理的需求，线程成为越来越重要的编程模型</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425090751.png"></p>
+<p>在第12章中，我们会讲述如何编写多线程程序</p>
+<h4 id="内存的抽象-——-虚拟内存"><a href="#内存的抽象-——-虚拟内存" class="headerlink" title="内存的抽象 —— 虚拟内存"></a>内存的抽象 —— 虚拟内存</h4><p>虚拟内存位每个进程提供了一个假象，就是每个进程都在独自占用整个内存空间，每个进程看到的内存都是一样的，我们称之为虚拟地址空间，如下图，就是linux系统中进程的虚拟地址空间</p>
+<p>从下往上看，地址是增大的，下面是0地址</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425091157.png"></p>
+<p>接下来我们自下而上的介绍一下虚拟地址空间的分布</p>
+<h5 id="存放程序代码和数据的区域"><a href="#存放程序代码和数据的区域" class="headerlink" title="存放程序代码和数据的区域"></a>存放程序代码和数据的区域</h5><p>此区域的内容是从可执行目标文件中加载而来的，例如我们多次提到的hello程序，对于所有进程来讲，代码都是从固定的地址开始的，至于这个读写数据区域放的是什么数据呢？例如，在C语言中，全局变量就是存放在这个区域，关于这个区域更多详细的内容，我们会在第七章有所介绍</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425091513.png"></p>
+<h5 id="堆（heap）"><a href="#堆（heap）" class="headerlink" title="堆（heap）"></a>堆（heap）</h5><p>顺着地址增大的方向，继续往上看就是堆（heap），malloc函数申请到的内存空间就在这个堆中，程序的代码和数据区在程序一开始的时候就被指定了大小，但是堆可以在运行时动态地扩展和收缩，在第九章我们研究虚拟内存的时候，会详细地介绍堆</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425092138.png"></p>
+<h5 id="共享库的存放区域"><a href="#共享库的存放区域" class="headerlink" title="共享库的存放区域"></a>共享库的存放区域</h5><p>这个区域主要存放像C语言的标准库和数学库这种共享的代码和数据，例如hello程序中的printf函数就是存放在这里，在第七章介绍链接时，会详细介绍共享库是如何工作的</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425092406.png"></p>
+<h5 id="用户栈"><a href="#用户栈" class="headerlink" title="用户栈"></a>用户栈</h5><p>我们在写程序的时候都用过函数调用，实际上函数调用的本质就是压栈，每一次当程序进行函数调用的时候，栈就会增长，函数执行完毕返回时，栈就会收缩。需要注意的是，栈的增长方向是从高地址到低地址，在第三章，我们会详细介绍编译器如何使用栈来实现函数调用</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425092703.png"></p>
+<h5 id="为内核保留的区域"><a href="#为内核保留的区域" class="headerlink" title="为内核保留的区域"></a>为内核保留的区域</h5><p>应用程序代码不能读写这个区域的数据，也不能直接调用内核中定义的函数，也就是说这个区域对应用程序是不可见的，关于更多虚拟内存的知识，我们将会在第九章详细地讲述</p>
+<h3 id="linux系统的思想-——-一切皆文件"><a href="#linux系统的思想-——-一切皆文件" class="headerlink" title="linux系统的思想 —— 一切皆文件"></a>linux系统的思想 —— 一切皆文件</h3><p>linux系统的哲学思想是：一切皆为文件。所有的IO设备，包括键盘、磁盘、显示器甚至是网络，都可以看成文件，系统中所有的输入输出都可以通过读写文件来完成。虽然文件的概念非常简单，但却非常强大，例如：当程序员需要处理读写磁盘上的文件时，他们不需要了解具体的磁盘技术，同一个程序可以在不同磁盘技术上的不同系统上运行，我们将在第十章详细地讲述Unix IO</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425093406.png"></p>
+<h2 id="漫游（四）"><a href="#漫游（四）" class="headerlink" title="漫游（四）"></a>漫游（四）</h2><p>系统漫游至此，我们一直将计算机系统作为一个孤立的硬件与软件的集合体，从一个系统来看，网络也可视为一个IO设备，随着互联网的发展，从一台计算机发送消息到另一台计算机已经成为非常普遍的应用，深入理解计算机系统的原书中讲述了如何使用本地计算机上的telnet客户端连接远程主机上的telnet服务器，由于telnet的安全性问题，目前ssh的连接方式更加普遍，接下来，我们讲述如何通过网络在远程主机上运行hello程序</p>
+<h3 id="数据交换"><a href="#数据交换" class="headerlink" title="数据交换"></a>数据交换</h3><p>当我们在ssh的客户端中输入hello字符串并且敲下回车之后，客户端的软件就会通过网络将字符串发送到ssh服务端，ssh服务端从网络端接收到这个字符串以后，会将这个字符串传递给远程主机上的shell程序，然后shell程序负责hello程序的加载，运行结果返回给ssh的服务端，最后ssh的服务端通过网络将程序的运行结果发送给ssh的客户端，ssh客户端在屏幕上显示运行结果</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425131940.png"></p>
+<p>这类客户端与服务端之间交互的应用是非常普遍的，在第十一章中，我们将会介绍如何创建一个简单的web服务器</p>
+<h3 id="阿姆达尔定律"><a href="#阿姆达尔定律" class="headerlink" title="阿姆达尔定律"></a>阿姆达尔定律</h3><p>为了定量的看一下系统的加速比，我们首先介绍一下阿姆达尔定律</p>
+<p>$$ S &#x3D; T_{old} &#x2F; T_{new} &#x3D; \frac{1}{(1 - \alpha) + \alpha &#x2F; k} $$</p>
+<p>这个定律的主要思想是，当我们对系统的某一部分进行加速时，被加速部分的重要性和加速程度是影响整体系统性能的关键因素。在加速前，假设一个应用程序的执行所需要的全部时间用 $T_{old}$ 来表示，为了方便描述，我们可以笼统的将这个程序分为两部分，一部分是不可加速的另外一部分是可加速的，其中可以加速的部分执行花费的时间为 $\alpha \cdot T_{old}$ ，所以不可加速部分的执行时间为 $T_{old}-\alpha\cdot T_{old}$ </p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425160236.png"></p>
+<p>程序经过优化后，可加速部分性能提升比例为 $k$ ，那么经过加速后，这个可加速部分所花费的时间就是 $(\alpha \cdot T_{old})&#x2F;k$ ，因此我们可以计算出程序经过加速后所花费的时间，这里用 $T_{new}$ 来表示</p>
+<p>$$ T_{new} &#x3D; (1 - \alpha) \cdot T_{old} + (\alpha\cdot T_{old}) &#x2F; k &#x3D; T_{old} \cdot [(1 - \alpha) + \alpha &#x2F; k] $$</p>
+<p>此时，我们可以得到加速比 $S &#x3D; T_{old} &#x2F; T_{new}$ </p>
+<p>$$ S &#x3D; T_{old} &#x2F; T_{new} &#x3D; \frac{1}{(1 - \alpha) + \alpha &#x2F; k} $$</p>
+<p>当 $\alpha &#x3D; 0.6$ 时，加速因子 $k &#x3D; 3$ ，那么我们获得的加速比就可以根据上述的公式计算出来 $S &#x3D; 1.67$ 倍</p>
+<p>如果我们考虑一个极限情况， $k \to \infty$ ，也就是我们可以把这60%的部分加速到几乎不花时间的程度，此时的加速比可以简化为</p>
+<p>$$ S &#x3D; \frac{1}{1 - \alpha} $$</p>
+<p>那么整个系统获得的净加速比也只有</p>
+<p>$$ S &#x3D; \frac{1}{1 - \alpha} &#x3D; \frac{1}{1 - 0.6} &#x3D; 2.5 $$</p>
+<p>因此在计算机的世界里，如果我们需要把系统的性能提高2倍或者更多，只有通过优化大部分的组件才能实现</p>
+<h3 id="如何获得更高的计算能力"><a href="#如何获得更高的计算能力" class="headerlink" title="如何获得更高的计算能力"></a>如何获得更高的计算能力</h3><p>可以通过以下三种途径</p>
+<ol>
+<li>线程级并发</li>
+<li>指令级并发</li>
+<li>单指令多数据并行</li>
+</ol>
+<h4 id="线程级并发"><a href="#线程级并发" class="headerlink" title="线程级并发"></a>线程级并发</h4><p>处理器芯片具有四个CPU核心，每个CPU核心都有自己的L1cache和L2cache，四个CPU核心共享L3cache，这四个CPU核心集成在一颗芯片上，对于许多高性能的服务器芯片，单颗芯片集成的CPU数量高达几十个，甚至上百个，通过增加CPU的核心数，可以提高系统的性能</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425165014.png"></p>
+<p>除此之外，还有一个技术就是超线程（hyperthreading），也称同时多线程，如果每个CPU核心可以同时执行两个线程，那么四个核心就可以并行地执行8个线程，那么单个CPU核心是如何实现超线程的呢？在CPU内部，像程序计数器和寄存器文件这样的硬件部件有多个备份，而像浮点运算部件这样的硬件还是只有一份，常规单线程处理器在做线程切换时，大概需要20000个时钟周期，而超线程处理器可以在单周期的基础上决定执行哪一个线程，这样一来CPU可以更好地利用它来处理资源，当一个线程因为读取数据进入等待状态时，CPU可以去执行另外一个线程，其中线程之间的切换只需要极少的时间代价，在第12章，我们会深入探讨一下并发的相关知识</p>
+<h4 id="指令级并发"><a href="#指令级并发" class="headerlink" title="指令级并发"></a>指令级并发</h4><p>现代处理器可以同时执行多条指令的属性称为指令级并行，每条指令从开始到结束大概需要20个时钟周期或者更多，但是处理器采用了非常多的技巧可以同时处理多达100条指令，因此近几年的处理器可以保持每个周期2~4条指令的执行效率，在第四章中，我们将详细介绍流水线技术</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230425170027.png"></p>
+<h5 id="单指令多数据"><a href="#单指令多数据" class="headerlink" title="单指令多数据"></a>单指令多数据</h5><p>现代处理器拥有特殊的硬件部件，允许一条指令产生多个并行的操作，这种方式称为单指令多数据（Single Instruction Multiple Data），SIMD的指令多是为了提高处理视频以及声音这类数据的执行速度，比较新的Intel以及AMD的处理速度都是支持SIMD指令加速的</p>
+<h4 id="计算机系统中的抽象"><a href="#计算机系统中的抽象" class="headerlink" title="计算机系统中的抽象"></a>计算机系统中的抽象</h4><p>在文章的开始，我们介绍了三个抽象，文件、虚拟内存以及进程，这里我们再增加一个，虚拟机是对整个计算机系统的抽象，包括操作系统、处理器以及程序</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230426104035.png"></p>
+<p>后续的内容我们会具体介绍这些抽象，第一章计算机系统漫游至此。</p>
+]]></content>
+      <tags>
+        <tag>csapp</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>若依框架的使用</title>
+    <url>/2023/04/17/RuoYi%20-%20using/</url>
+    <content><![CDATA[<p>简介：</p>
+<p>这是简介</p>
+<span id="more"></span>
+
+<h1 id="若依框架克隆到本地"><a href="#若依框架克隆到本地" class="headerlink" title="若依框架克隆到本地"></a>若依框架克隆到本地</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@gitee.com:y_project/RuoYi-Vue.git</span><br></pre></td></tr></table></figure>
+
+<p>目录结构如下</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417085438.png"></p>
+<h1 id="后端配置"><a href="#后端配置" class="headerlink" title="后端配置"></a>后端配置</h1><h2 id="数据库导入"><a href="#数据库导入" class="headerlink" title="数据库导入"></a>数据库导入</h2><p>使用Navicat导入sql文件夹中的两个文件得到相关的表结构</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417090225.png"></p>
+<h2 id="更改数据库配置"><a href="#更改数据库配置" class="headerlink" title="更改数据库配置"></a>更改数据库配置</h2><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417092224.png"></p>
+<p>将ry-vue更改为本地数据库名称，用户名和密码也换成本地数据库的对应用户名和密码（加引号）。</p>
+<h2 id="更改后端程序运行端口（如需要）"><a href="#更改后端程序运行端口（如需要）" class="headerlink" title="更改后端程序运行端口（如需要）"></a>更改后端程序运行端口（如需要）</h2><p>默认为8080，如需要可以自行更改</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417092619.png"></p>
+<h2 id="配置redis"><a href="#配置redis" class="headerlink" title="配置redis"></a>配置redis</h2><p>端口默认6379</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417103238.png"></p>
+<p>下载<a href="https://github.com/tporadowski/redis/releases">redis安装包</a>，并安装。</p>
+<p>安装后双击redis-server.exe启动服务端，双击redis-cli.exe启动客户端连接服务端，在客户端输入 “ping”，出现“PONG”，即证明连接成功</p>
+<h2 id="启动后端程序"><a href="#启动后端程序" class="headerlink" title="启动后端程序"></a>启动后端程序</h2><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417103725.png"></p>
+<p>观察到启动成功</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417103817.png"></p>
+<h1 id="前端配置"><a href="#前端配置" class="headerlink" title="前端配置"></a>前端配置</h1><h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>使用vscode打开项目中的ruoyi-ui文件夹，终端运行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行前端程序"><a href="#运行前端程序" class="headerlink" title="运行前端程序"></a>运行前端程序</h2><p>安装完依赖后，继续运行（此时要求后端程序处于运行状态，不然前端会找不到后端的端口）</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+
+<p>浏览器自动弹出登陆界面</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417105103.png"></p>
+<p>此处执行了启动服务的命令，如需要使用其他命令，可以查看 package.json 文件</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230417105755.png"></p>
+<h1 id="模块自定义"><a href="#模块自定义" class="headerlink" title="模块自定义"></a>模块自定义</h1><h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2>]]></content>
+      <tags>
+        <tag>SpringBoot</tag>
+        <tag>Vue</tag>
+        <tag>若依框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内外网同时连接的静态路由设置</title>
+    <url>/2023/04/14/RouteTwins/</url>
+    <content><![CDATA[<p>这是简介：<br>记录通过设置静态路由来让电脑通过两个网卡来不需要切换地同时访问内外网</p>
+<span id="more"></span>
+
+<h1 id="记录内外网信息"><a href="#记录内外网信息" class="headerlink" title="记录内外网信息"></a>记录内外网信息</h1><p>进入控制面板 –&gt; 网络和Internet –&gt; 网络连接<br><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230414155333.png"><br>点击详细信息分别查看并记录内外网的IPv4地址、IPv4子网掩码以及IPv4默认网关。</p>
+<h1 id="设置路由"><a href="#设置路由" class="headerlink" title="设置路由"></a>设置路由</h1><p>用管理员权限打开终端，输入</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">route <span class="built_in">print</span> -4</span><br></pre></td></tr></table></figure>
+<p>来查看IPv4的路由设置</p>
+<p>输入</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">route delete 0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>来删除默认的路由设置</p>
+<p>输入</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">route add 0.0.0.0 mask 0.0.0.0 <span class="variable">$&#123;外网网关&#125;</span> -p</span><br></pre></td></tr></table></figure>
+<p>来设置默认数据走外网网关，且子网掩码为默认，设为永久路由</p>
+<p>输入</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">route add <span class="variable">$&#123;内网IP首段&#125;</span>.0.0.0 mask <span class="variable">$&#123;内网掩码首段&#125;</span>.0.0.0 <span class="variable">$&#123;内网网关&#125;</span> -p</span><br></pre></td></tr></table></figure>
+<p>设置凡是内网IP首段数字开头的网址，都走内网网关，掩码首段为内网掩码首段，其余为零，设为永久路由</p>
+<p>到此为止，路由表添加完毕。</p>
+<h1 id="删除路由"><a href="#删除路由" class="headerlink" title="删除路由"></a>删除路由</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">route delete <span class="variable">$&#123;路由数据&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="将设置代码封装"><a href="#将设置代码封装" class="headerlink" title="将设置代码封装"></a>将设置代码封装</h1><p>将下述代码封装，需要设置路由时运行即可</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">route delete 0.0.0.0</span><br><span class="line">route add 0.0.0.0 mask 0.0.0.0 <span class="variable">$&#123;外网网关&#125;</span></span><br><span class="line">route add <span class="variable">$&#123;内网IP首段&#125;</span>.0.0.0 mask <span class="variable">$&#123;内网掩码首段&#125;</span>.0.0.0 <span class="variable">$&#123;内网网关&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>网络</tag>
+        <tag>路由设置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LaTeX的安装与环境配置</title>
+    <url>/2023/04/10/LaTeX%20environment%20build/</url>
+    <content><![CDATA[<p>word用着打公式过于麻烦，于是把扔了好几年的LaTeX给捡回来。这里我选择在WSL（Windows Subsystem for Linux）中安装TeX Live，并将其安装在用户个人文件夹中。并使用vscode作为编辑器进行文档编辑。</p>
+<p>本文参考<a href="https://syvshc.github.io/">无锤乙醇</a>的<a href="https://syvshc.github.io/2022-04-20-latex-tutorial/#fn1">latex-tutorial</a>以及啸行编写的<a href="http://mirrors.ctan.org/info/install-latex-guide-zh-cn/install-latex-guide-zh-cn.pdf">install-latex-guide-zh-cn</a>，仅作个人学习记录使用。</p>
+<span id="more"></span>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>TeX Live 旨在成为启动和运行TeX 文档制作系统的直接方式。它提供了一个全面的 TeX 系统，其中包含适用于大多数 Unix 的二进制文件，包括 GNU&#x2F;Linux 和macOS，以及 Windows。它包括所有主要的 TeX 相关程序、宏包和免费软件字体，包括对全球多种语言的支持。许多 Unix&#x2F;GNU&#x2F;Linux操作系统通过它们自己的发行版和包管理器提供 TeX Live。</p>
+<h1 id="TeX-Live下载安装"><a href="#TeX-Live下载安装" class="headerlink" title="TeX Live下载安装"></a>TeX Live下载安装</h1><h2 id="进入官网"><a href="#进入官网" class="headerlink" title="进入官网"></a>进入官网</h2><p><a href="https://tug.org/texlive/">官网</a></p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410082153.png"></p>
+<h2 id="选择安装方式"><a href="#选择安装方式" class="headerlink" title="选择安装方式"></a>选择安装方式</h2><p>这里选择ISO镜像安装</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410084251.png"></p>
+<h2 id="选择镜像网站"><a href="#选择镜像网站" class="headerlink" title="选择镜像网站"></a>选择镜像网站</h2><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410084405.png"></p>
+<p>速度如果较慢也可以直接使用<a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/">清华tuna</a>的源</p>
+<h2 id="安装TEX-Live"><a href="#安装TEX-Live" class="headerlink" title="安装TEX Live"></a>安装TEX Live</h2><p>在正式安装前，用户需要在bash中执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt install fontconfig gedit</span><br></pre></td></tr></table></figure>
+
+<p>以减少后续字体问题和文本编辑问题，在Windows11中，WSL已经能够自动完成可视化工作，这为一些用户提供了便利。为避免安装速度过慢，可按如下操作更改文件sources.list。</p>
+<p>对原始文件进行备份</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/sources.list /etc/apt/sources.list.bak</span><br></pre></td></tr></table></figure>
+
+<p>接下来执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+
+<p>按照<a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/">清华大学镜像网站</a>的内容对链接进行替换，保存退出，再执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt upgrade</span><br></pre></td></tr></table></figure>
+
+<p>换源并更新，若更改错误，可执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/sources.list.bak /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+
+<p>接下来，在主系统中将镜像挂载，例如挂载到 X:\ ，而后进入bash并执行如下命令</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> /mnt/x</span><br><span class="line">sudo mount -t drvfs X: /mnt/x</span><br></pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/mnt/x/install-tl</span><br></pre></td></tr></table></figure>
+
+<p>并选择路径为</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">~/texlive/2023</span><br></pre></td></tr></table></figure>
+
+<p>安装完毕后，修改环境变量为</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Add TeX Live to the PATH, MANPATH, INFOPATH</span></span><br><span class="line"><span class="built_in">export</span> PATH=~/texlive/2023/bin/x86_64-linux:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> MANPATH=~/texlive/2023/texmf-dist/doc/man:<span class="variable">$MANPATH</span></span><br><span class="line"><span class="built_in">export</span> INFOPATH=~/texlive/2023/texmf-dist/doc/info:<span class="variable">$INFOPATH</span></span><br></pre></td></tr></table></figure>
+
+<p>有关字体的处理变为</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/texlive/2023/texmf-var/fonts/conf/texlive-fontconfig.conf ~/.fonts.conf/09-texlive.conf</span><br></pre></td></tr></table></figure>
+
+<p>然后执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">fc-cache -fv</span><br></pre></td></tr></table></figure>
+
+<p>实际上, 无论将 TEX Live 安装到哪里, 字体的配置文件都可以仿照上面只复制于用户文件夹中.</p>
+<h2 id="卸载-TeX-live"><a href="#卸载-TeX-live" class="headerlink" title="卸载 TeX live"></a>卸载 TeX live</h2><p>下面提供几种卸载方法，卸载后需注意清理环境变量</p>
+<h3 id="卸载源内的版本"><a href="#卸载源内的版本" class="headerlink" title="卸载源内的版本"></a>卸载源内的版本</h3><p>如果要卸载从源内安装的 TeX Live，啸行推荐使用 synaptic package manager，在 Terminal 中执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt install synaptic</span><br></pre></td></tr></table></figure>
+
+<p>即可安装，安装后打开，搜索 texlive 即可看到与之相关的包，右键标记以删除即可，当然用户也可以直接使用</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">dpkg -l | grep <span class="string">&#x27;TeX␣Live&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>找到相应的包名 &lt;package name&gt;, 之后使用类似</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove --purge &lt;package name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>的命令删除各个包。通常</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove --purge tex-common</span><br></pre></td></tr></table></figure>
+
+<p>就可以删除源内版本</p>
+<h3 id="手动卸载"><a href="#手动卸载" class="headerlink" title="手动卸载"></a>手动卸载</h3><p>如果是从光盘镜像安装, 直接删除文件夹即可. 先在 Terminal 中执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">kpsewhich -var-value TEXMFROOT</span><br></pre></td></tr></table></figure>
+
+<p>来查询安装路径, 进而通过 sudo rm -rf 命令进行删除. 默认安装的用户直接运行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> -rf /usr/local/texlive/2023</span><br><span class="line"><span class="built_in">rm</span> -rf ~/.texlive2023</span><br></pre></td></tr></table></figure>
+
+<p>卸载完成后，可以进一步移除之前设置的环境变量。在终端中执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>然后移除之前在文件末尾添加的</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Add TeX Live to the PATH, MANPATH, INFOPATH</span></span><br><span class="line"><span class="built_in">export</span> PATH=/usr/local/texlive/2023/bin/x86_64-linux:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> MANPATH=/usr/local/texlive/2023/texmf-dist/doc/man:<span class="variable">$MANPATH</span></span><br><span class="line"><span class="built_in">export</span> INFOPATH=/usr/local/texlive/2023/texmf-dist/doc/info:<span class="variable">$INFOPATH</span></span><br></pre></td></tr></table></figure>
+
+<p>并保存退出. 同时在 Terminal 中执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure>
+
+<p>在 secure_path 中删除</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/usr/local/texlive/2023/bin/x86_64-linux:</span><br></pre></td></tr></table></figure>
+
+<p>然后依次Ctrl + X , Y , Enter 保存退出.</p>
+<h3 id="使用-tlmgr-工具"><a href="#使用-tlmgr-工具" class="headerlink" title="使用 tlmgr 工具"></a>使用 tlmgr 工具</h3><p>同样, 用户也可以使用 tlmgr 工具卸载</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo tlmgr remove --all</span><br></pre></td></tr></table></figure>
+
+<p>至此</p>
+]]></content>
+      <tags>
+        <tag>LaTeX</tag>
+        <tag>环境配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker安装部署</title>
+    <url>/2023/04/04/Docker%20-%20install/</url>
+    <content><![CDATA[<p>关于Docker的安装和部署的相关操作</p>
+<span id="more"></span>
+
+<h1 id="获得root权限"><a href="#获得root权限" class="headerlink" title="获得root权限"></a>获得root权限</h1><p>使用命令进入root模式</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">su -</span><br></pre></td></tr></table></figure>
+
+<p>授权文件写权限</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chmmod -v u+w /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<p>打开文件编辑</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vi /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<p>添加下面一行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">## Allow root to run any commands anywhere</span></span><br><span class="line">root    ALL=(ALL)     ALL</span><br><span class="line"><span class="variable">$&#123;yourName&#125;</span>   ALL=(ALL)     ALL</span><br></pre></td></tr></table></figure>
+
+<p>移除文件写权限</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -v u-w /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h1><p>安装镜像</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+
+<p>设置稳定仓库</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+
+<p>安装所需的软件包。yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum install -y device-mapper-persistent-data</span><br><span class="line">sudo yum install -y lvm2</span><br></pre></td></tr></table></figure>
+
+<h1 id="将用户加入docker组"><a href="#将用户加入docker组" class="headerlink" title="将用户加入docker组"></a>将用户加入docker组</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将普通用户加入到docker组</span></span><br><span class="line">sudo gpasswd -a <span class="variable">$USER</span> docker</span><br><span class="line"><span class="comment"># 更新docker组</span></span><br><span class="line">newgrp docker</span><br></pre></td></tr></table></figure>
+
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker system <span class="built_in">df</span></span><br><span class="line">	docker自身的内存占用</span><br><span class="line">docker system prune</span><br><span class="line">	docker system prune命令可以用于清理磁盘，删除关闭的容器、无用的数据卷和网络，以及dangling镜像(即无tag的镜像)</span><br><span class="line">docker image</span><br><span class="line">	查看docker镜像内容</span><br><span class="line">docker info</span><br><span class="line">	查看docker信息</span><br><span class="line">docker stats</span><br><span class="line">	查看容器运行内存cpu占用情况</span><br><span class="line">docker update --restart=always 容器名称</span><br><span class="line">	设置docker容器开机启动</span><br><span class="line">less /var/lib/docker/containers/容器ID/容器ID-json.log</span><br><span class="line">	docker 容器日志路径日志内容查询</span><br><span class="line">docker logs --<span class="built_in">tail</span>=10 -f 容器名称/容器<span class="built_in">id</span></span><br><span class="line">	docker 容器日志内容实时查看</span><br></pre></td></tr></table></figure>
+
+<h1 id="docker构建容器时推荐追加的脚本"><a href="#docker构建容器时推荐追加的脚本" class="headerlink" title="docker构建容器时推荐追加的脚本"></a>docker构建容器时推荐追加的脚本</h1><pre><code>-it -d   # 支持后台运行
+-e TZ=Asia/Shanghai  	# 指定时区
+-v /etc/localtime:/etc/localtime:ro  # 公用服务器时间
+--restart=always 	# 自动重启
+</code></pre>
+]]></content>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MyBatis学习记录</title>
+    <url>/2023/03/29/MyBatis%20-%20learn,%20using/</url>
+    <content><![CDATA[<p>MyBatis的学习记录</p>
+<span id="more"></span>
+
+<h1 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h1><h2 id="什么是MyBatis？"><a href="#什么是MyBatis？" class="headerlink" title="什么是MyBatis？"></a>什么是MyBatis？</h2><ul>
+<li>MyBatis是一款优秀的持久层框架，用于简化JDBC开发</li>
+<li>MyBatis本是Apache的一个开源项目iBatis，2010年这个项目由apache software foundation迁移到了google code，并改名为MyBatis。2013年11月迁移至Github</li>
+<li><a href="https://mybatis.org/mybatis-3/zh/index.html">官网</a></li>
+</ul>
+<h2 id="持久层"><a href="#持久层" class="headerlink" title="持久层"></a>持久层</h2><ul>
+<li>负责将数据保存到数据库的那一层代码</li>
+<li>JavaEE三层架构：表现层、业务层、持久层</li>
+</ul>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><ul>
+<li>框架就是一个半成品软件，是一套可重用的、通用的、软件基础代码模型</li>
+<li>在框架的基础上构建软件编写更加高效、规范、通用、可扩展</li>
+</ul>
+<h2 id="JDBC缺点"><a href="#JDBC缺点" class="headerlink" title="JDBC缺点"></a>JDBC缺点</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 注册驱动</span></span><br><span class="line">Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line"><span class="comment">// 2. 获取Connection连接</span></span><br><span class="line"><span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql:///db1?useSSL = false&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">uname</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">pwd</span> <span class="operator">=</span> <span class="string">&quot;1234&quot;</span>;</span><br><span class="line"><span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> DriverManager.getConnection(url, uname, pwd);</span><br><span class="line"><span class="comment">// 接收输入的查询条件</span></span><br><span class="line"><span class="type">String</span> <span class="variable">gender</span> <span class="operator">=</span> <span class="string">&quot;男&quot;</span>;</span><br><span class="line"><span class="comment">// 定义sql</span></span><br><span class="line"><span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select * from tb_user where gender = ?&quot;</span>;</span><br><span class="line"><span class="comment">// 获取pstmt对象</span></span><br><span class="line"><span class="type">PreparedStatement</span> <span class="variable">pstmt</span> <span class="operator">=</span> conn.prepareStatement(sql);</span><br><span class="line"><span class="comment">// 设置 ？的值</span></span><br><span class="line">pstmt.setString(<span class="number">1</span>, gender);</span><br><span class="line"><span class="comment">// 执行sql</span></span><br><span class="line"><span class="type">ResultSet</span> <span class="variable">rs</span> <span class="operator">=</span> pstmt.executeQuery();</span><br><span class="line"><span class="comment">// 遍历Result，获取数据</span></span><br><span class="line"><span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">ArrayList&lt;User&gt; users = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">while</span> (rs.next())&#123;</span><br><span class="line">    <span class="comment">// 获取数据</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">id</span> <span class="operator">=</span> rs.getlnt(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> rs.getString(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> rs.getString(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">    <span class="comment">// 创建对象，设置属性值</span></span><br><span class="line">    user = <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    user.setId(id);</span><br><span class="line">    user.setUsername(username);</span><br><span class="line">    user.setPassword(password);</span><br><span class="line">    user.setGender(gender);</span><br><span class="line">    <span class="comment">// 装入集合</span></span><br><span class="line">        users.add(user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="硬编码（将未来可能变化的字符串信息写到代码里面）"><a href="#硬编码（将未来可能变化的字符串信息写到代码里面）" class="headerlink" title="硬编码（将未来可能变化的字符串信息写到代码里面）"></a>硬编码（将未来可能变化的字符串信息写到代码里面）</h3><ul>
+<li>注册驱动，获取链接</li>
+<li>SQL语句</li>
+</ul>
+<h3 id="操作繁琐"><a href="#操作繁琐" class="headerlink" title="操作繁琐"></a>操作繁琐</h3><ul>
+<li>手动设置参数</li>
+<li>手动封装结果集</li>
+</ul>
+<h2 id="MyBatis简化"><a href="#MyBatis简化" class="headerlink" title="MyBatis简化"></a>MyBatis简化</h2><ol>
+<li>硬编码写到配置文件中</li>
+<li>繁琐的操作自动完成</li>
+</ol>
+<p>MyBatis免除了几乎所有的JDBC代码以及设置参数和获取结果集的工作</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>MyBatis快速入门</li>
+<li>Mapper代理开发</li>
+<li>MyBatis核心配置文件</li>
+<li>配置文件完成增删改查</li>
+<li>注解完成增删改查</li>
+<li>动态SQL</li>
+</ul>
+<h1 id="MyBatis快速入门"><a href="#MyBatis快速入门" class="headerlink" title="MyBatis快速入门"></a>MyBatis快速入门</h1><h2 id="查询user表中所有数据"><a href="#查询user表中所有数据" class="headerlink" title="查询user表中所有数据"></a>查询user表中所有数据</h2><ol>
+<li>创建user表，添加数据</li>
+<li>创建模块，导入坐标</li>
+<li>编写MyBatis核心配置文件 –&gt; 替换连接信息 解决硬编码问题</li>
+<li>编写SQL映射文件 –&gt; 统一管理sql语句，解决硬编码问题</li>
+<li>编码</li>
+</ol>
+<h3 id="创建user表，添加数据"><a href="#创建user表，添加数据" class="headerlink" title="创建user表，添加数据"></a>创建user表，添加数据</h3><p>打开NaviCat，创建一个如下所示的表</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230329154716.png"></p>
+<p>并填入测试信息</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230329154836.png"></p>
+<p>在idea中新建Maven模块mybatis-demo</p>
+]]></content>
+      <tags>
+        <tag>MyBatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>前后端分离之Springboot</title>
+    <url>/2023/03/28/Front_and_back%20-%20Springboot/</url>
+    <content><![CDATA[<p>使用Springboot进行后端搭建的记录</p>
+<span id="more"></span>
+
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><ul>
+<li>jdk 1.8</li>
+<li>mysql 5.7+</li>
+<li>node 16.19.0</li>
+<li>navicat </li>
+<li>IDEA2021.3</li>
+</ul>
+<h1 id="使用Springboot进行后端搭建"><a href="#使用Springboot进行后端搭建" class="headerlink" title="使用Springboot进行后端搭建"></a>使用Springboot进行后端搭建</h1><h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><ul>
+<li>Lombok</li>
+<li>Spring Web</li>
+<li>MySQL Driver</li>
+<li>MyBatis Framework</li>
+</ul>
+<p>此处默认已安装MySQL和Navicat</p>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><ul>
+<li>src</li>
+<li>pom.xml</li>
+</ul>
+<p>使用idea的springboot框架自动创建项目后，得到如下项目结构</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328103910.png"></p>
+<p>其中src是主程序文件夹，pom.xml是依赖的配置文件，包含了依赖的版本等信息。</p>
+<h2 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h2><p>数据库配置文件在&#x2F;src&#x2F;main&#x2F;resources目录下的application.yml文件，需要先对它进行配置</p>
+<p>我的测试用数据库配置如下，其中数据库连接地址中test字段为用户数据库的名字，需根据实际情况修改，serverTimezone也应根据所在地自行更改时区（GMT%2b8为东八区）</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment">## 应用名称</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="comment">#  application:</span></span><br><span class="line"><span class="comment">#    name: Springboot</span></span><br><span class="line"><span class="comment"># 数据库驱动：</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line"><span class="comment"># 数据源名称</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">defaultDataSource</span></span><br><span class="line"><span class="comment"># 数据库连接地址</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2b8</span></span><br><span class="line"><span class="comment"># 数据库用户名&amp;密码：</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">****</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">******</span></span><br><span class="line"><span class="comment"># 应用服务 WEB 访问端口</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">9090</span></span><br><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mapper/*.xml</span> <span class="comment">#扫描所有mybatis文件</span></span><br></pre></td></tr></table></figure>
+
+<p>首先在springboot文件目录下创建entity层（也叫model层、domain层）用于存放我们的实体类，与数据库中的属性基本保持一致，实现set和get的方法（此处使用的@Data注解包含了set和get方法，故没有在下面体现）</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230309102013.png"></p>
+<p>在entity包下创建实体类与之前创建的数据库的结构对应，如下图所示</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230309102359.png"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.marcaas.springboot.entity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span>  String username;</span><br><span class="line">    <span class="keyword">private</span>  String password;</span><br><span class="line">    <span class="keyword">private</span>  String nickname;</span><br><span class="line">    <span class="keyword">private</span>  String email;</span><br><span class="line">    <span class="keyword">private</span>  String phone;</span><br><span class="line">    <span class="keyword">private</span>  String address;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了lombok插件的@Data注解来代替繁琐的对每个变量的get和set方法，更加简洁</p>
+<p>在springboot文件夹下创建mapper层（也叫dao层），对数据库进行数据持久化操作，方法语句是直接针对数据库操作的，主要实现一些增删改查操作，在mybatis中方法主要与xxx.xml内相互一一映射</p>
+<p>在mapper层创建Interface接口类UserMapper</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230309114057.png"></p>
+<p>并对其进行编辑</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.marcaas.springboot.mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.marcaas.springboot.entity.User;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.jws.soap.SOAPBinding;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="meta">@Select(&quot;SELECT * from sys_user&quot;)</span></span><br><span class="line">    List&lt;User&gt; <span class="title function_">findAll</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;INSERT into sys_user(username,password,nickname,email,phone,address) &quot; +</span></span><br><span class="line"><span class="meta">            &quot;VALUES(#&#123;username&#125;,#&#123;password&#125;,#&#123;nickname&#125;,#&#123;email&#125;,#&#123;phone&#125;,#&#123;address&#125;)&quot;)</span></span><br><span class="line">    Integer <span class="title function_">insert</span><span class="params">(User user)</span>;</span><br><span class="line"></span><br><span class="line">    Integer <span class="title function_">update</span><span class="params">(User user)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Delete(&quot;delete from sys_user where id = #&#123;id&#125;&quot;)</span></span><br><span class="line">    Integer <span class="title function_">deleteById</span><span class="params">(<span class="meta">@Param(&quot;id&quot;)</span> Integer id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from sys_user limit #&#123;pageNum&#125;, #&#123;pageSize&#125;&quot;)</span></span><br><span class="line">    List&lt;User&gt; <span class="title function_">selectPage</span><span class="params">(Integer pageNum, Integer pageSize)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select count(*) from sys_user&quot;)</span></span><br><span class="line">    Integer <span class="title function_">selectTotal</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>此处的注解Select是Mybatis提供的</p>
+<p>创建controller层（也叫web层），负责具体模块的业务流程控制，需要调用service逻辑设计层的接口来控制业务流程。因为service中的方法是我们使用到的，controller通过接受前端H5或App传来的参数进行业务操作，再将处理结果返回到前端。</p>
+<p>在controller层下创建UserController.java文件，并编辑新增接口和查询接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.marcaas.springboot.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.marcaas.springboot.entity.User;</span><br><span class="line"><span class="keyword">import</span> com.marcaas.springboot.mapper.UserMapper;</span><br><span class="line"><span class="keyword">import</span> com.marcaas.springboot.service.UserService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 新增或更新接口</span></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> userService.save(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询所有数据</span></span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;User&gt; <span class="title function_">index</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userMapper.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按id删除数据</span></span><br><span class="line">    <span class="meta">@DeleteMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">delete</span><span class="params">(<span class="meta">@PathVariable</span> Integer id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userMapper.deleteById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分页查询</span></span><br><span class="line">    <span class="comment">// 接口路径：/user/page?pageNum=1&amp;pageSize=10</span></span><br><span class="line">    <span class="comment">// @RequestParam接受</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/page&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title function_">findPage</span><span class="params">(<span class="meta">@RequestParam</span> Integer pageNum, <span class="meta">@RequestParam</span> Integer pageSize)</span> &#123;</span><br><span class="line">        pageNum = (pageNum - <span class="number">1</span>) * pageSize;</span><br><span class="line">        List&lt;User&gt; data = userMapper.selectPage(pageNum, pageSize);</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">total</span> <span class="operator">=</span> userMapper.selectTotal();</span><br><span class="line">        Map&lt;String, Object&gt; res = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        res.put(<span class="string">&quot;data&quot;</span>, data);</span><br><span class="line">        res.put(<span class="string">&quot;total&quot;</span>, total);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="实现增删改查"><a href="#实现增删改查" class="headerlink" title="实现增删改查"></a>实现增删改查</h2>]]></content>
+  </entry>
+  <entry>
+    <title>前后端分离之Vue</title>
+    <url>/2023/03/28/Front_and_back%20-%20Vue/</url>
+    <content><![CDATA[<p>使用Vue进行前端框架搭建</p>
+<span id="more"></span>
+
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><ul>
+<li>jdk 1.8</li>
+<li>mysql 5.7+</li>
+<li>node 16.19.0</li>
+<li>navicat </li>
+<li>IDEA2021.3</li>
+</ul>
+<h1 id="使用Vue进行前端框架搭建"><a href="#使用Vue进行前端框架搭建" class="headerlink" title="使用Vue进行前端框架搭建"></a>使用Vue进行前端框架搭建</h1><h2 id="创建Vue项目"><a href="#创建Vue项目" class="headerlink" title="创建Vue项目"></a>创建Vue项目</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vue creat (vuename)</span><br></pre></td></tr></table></figure>
+<p>具体选项如下</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230303142235.png"></p>
+<p>然后可以将服务运行起来看一下是否成功，cd到(vuename)文件夹，使用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230303143942.png"></p>
+<p>给创建好的页面添加一些元素</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230306084740.png"></p>
+<p>浏览器界面长这样</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230303144110.png"></p>
+<h2 id="安装Element插件"><a href="#安装Element插件" class="headerlink" title="安装Element插件"></a>安装Element插件</h2><p>这里推荐使用npm安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm i element-ui -S</span><br></pre></td></tr></table></figure>
+<p>此时可以在package.json文件里看到有element-ui的依赖</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230306084215.png"></p>
+<p>在Home.vue文件的div块中添加一个button来测试element-ui是否可用</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-button</span>&gt;</span>&#123;&#123; msg &#125;&#125;<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如图，标签出现</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230306085001.png"></p>
+<p>接下来参考<a href="https://element.eleme.cn/#/zh-CN/component/container#container-bu-ju-rong-qi">element官网</a>的内容对页面布局进行自定义的配置，在对页面细节进行修改后得到一个页面的雏形，如下图所示</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230306095241.png"></p>
+<p>以下是我的相关配置文件<br>global.css</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230306095834.png"></p>
+<p>App.vue</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230306095926.png"></p>
+<p>Home.vue（主要修改处已用红色框标出）</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230306100214.png"></p>
+<p>具体网页美化请参照<a href="https://element.eleme.cn/#/zh-CN/component/installation">Element组件官网</a>并结合自己审美进行修改。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Navicat和MySQL的使用</title>
+    <url>/2023/03/28/Navicat_and_MySQL%20-%20using/</url>
+    <content><![CDATA[<p>Navicat和MySQL的使用</p>
+<span id="more"></span>
+<h1 id="新建连接"><a href="#新建连接" class="headerlink" title="新建连接"></a>新建连接</h1><p>点击连接-MySQL</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328111053.png"></p>
+<p>连接名不用填会自动生成，填写mySQL密码（需要跟mySQL安装时设置的密码相对应），点击测试连接，出现链接成功则可以点击确定</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328112749.png"></p>
+]]></content>
+      <tags>
+        <tag>navicat</tag>
+        <tag>数据库</tag>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>制作并使用python发布的模块压缩包和whl包，并进行pip安装和使用</title>
+    <url>/2023/03/27/python%20public%20whl-package%20&amp;%20pip%20install%20and%20usage/</url>
+    <content><![CDATA[<p>把自己的程序打包给别人去用，此处的包和打包的概念不一样，而是python中的package，是指发布的模块压缩包或whl包</p>
+<span id="more"></span>
+
+<h1 id="几个概念"><a href="#几个概念" class="headerlink" title="几个概念"></a>几个概念</h1><ul>
+<li>模块</li>
+<li>包</li>
+<li>第三方模块    </li>
+<li>pip</li>
+<li><code>__init__</code></li>
+</ul>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><p>模块是Python程序架构的一个核心概念，每一个以扩展名.py结尾的Python源代码文件都是一个模块，在模块中定义的全局变量、函数、类都是提供给外界直接使用的工具，用import进行模块的导入。</p>
+<h2 id="包（Package）"><a href="#包（Package）" class="headerlink" title="包（Package）"></a>包（Package）</h2><p>包是一个包含多个模块的特殊目录（文件夹），目录下有一个特殊的文件__init__.py，目的是为了import + 包名可以一次性导入包中所有的模块。</p>
+<h2 id="第三方模块"><a href="#第三方模块" class="headerlink" title="第三方模块"></a>第三方模块</h2><p>第三方模块通常是指由第三方开发团队开发的并且被程序员广泛使用的Python包&#x2F;模块。</p>
+<h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>pip是一个通用的Python包管理工具，提供了对Python包的查找、下载、安装、卸载等功能。</p>
+<h2 id="init-py"><a href="#init-py" class="headerlink" title="__init__.py"></a><code>__init__.py</code></h2><p>是一个对外的接口，若需要把我们的模块在外界使用，则需要编辑配置init文件，来指定对外的列表，例如：</p>
+<p>我建立了一个结构如下的文件夹</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140115.png"></p>
+<p>其中__init__.py为接口文件，test1和test2是两个模块，main文件用来测试，先在__init__文件中进行编辑</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> test1</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> test2</span><br></pre></td></tr></table></figure>
+
+<p>然后在main文件里测试，输入</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> major1</span><br><span class="line"></span><br><span class="line">major1.</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，代码提示中出现test1和test2</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140600.png"></p>
+<p>此时我们如果把__init__.py中的test1一行注释掉，则会观察到，代码提示中只剩下了test2</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140736.png"></p>
+<p>以上我们可以看出__init__.py文件的作用。</p>
+<h1 id="构建自己的第三方库（whl格式）"><a href="#构建自己的第三方库（whl格式）" class="headerlink" title="构建自己的第三方库（whl格式）"></a>构建自己的第三方库（whl格式）</h1><ul>
+<li>安装setuptools</li>
+<li>创建并编辑setup.py文件</li>
+<li>打包</li>
+<li>安装</li>
+<li>卸载</li>
+</ul>
+<p>首先，我的文件结构如下</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327161801.png"></p>
+<p>其中__init__.py中引入hellotest.py和helloworld.py两个模块</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> hellotest</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> helloworld</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装setuptools"><a href="#安装setuptools" class="headerlink" title="安装setuptools"></a>安装setuptools</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pip install setuptools</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建setup-py文件"><a href="#创建setup-py文件" class="headerlink" title="创建setup.py文件"></a>创建setup.py文件</h2><p>setup.py文件为打包的配置文件，内容如下，注意这里的打包的py文件和包文件夹的目录结构要和真实文件的结构相对应。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打包成模块压缩包</span></span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> find_packages</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&quot;hello&quot;</span>,  <span class="comment"># 包名</span></span><br><span class="line">    version=<span class="string">&quot;0.1&quot;</span>,  <span class="comment"># 版本</span></span><br><span class="line">    <span class="comment"># 最重要的就是py_modules和packages</span></span><br><span class="line">    py_modules=[<span class="string">&quot;hello.hellotest&quot;</span>,<span class="string">&quot;hello.helloworld&quot;</span>],  <span class="comment"># py_modules : 打包的.py文件</span></span><br><span class="line">    packages=[<span class="string">&quot;hello&quot;</span>],  <span class="comment"># packages: 打包的python文件夹</span></span><br><span class="line">    <span class="comment"># keywords=(&quot;AI&quot;, &quot;Algorithm&quot;),  # 程序的关键字列表</span></span><br><span class="line">    description=<span class="string">&quot;AIAgorithmPack&quot;</span>,                 <span class="comment"># 简单描述</span></span><br><span class="line">    long_description=<span class="string">&quot;AIAgorithmPack for python&quot;</span>, <span class="comment"># 详细描述</span></span><br><span class="line">    <span class="comment"># license=&quot;MIT Licence&quot;,  # 授权信息</span></span><br><span class="line">    url=<span class="string">&quot;https://marcaas.github.io/&quot;</span>,  <span class="comment"># 官网地址</span></span><br><span class="line">    author=<span class="string">&quot;marcaas&quot;</span>,  <span class="comment"># 作者</span></span><br><span class="line">    author_email=<span class="string">&quot;thy777marcaas@gmail.com&quot;</span>,  <span class="comment"># 作者邮箱</span></span><br><span class="line">    <span class="comment"># packages=find_packages(), # 需要处理的包目录（包含__init__.py的文件夹）</span></span><br><span class="line">    <span class="comment"># platforms=&quot;any&quot;,  # 适用的软件平台列表</span></span><br><span class="line">    <span class="comment"># install_requires=[],  # 需要安装的依赖包</span></span><br><span class="line">    <span class="comment"># 项目里会有一些非py文件,比如html和js等,这时候就要靠include_package_data和package_data来指定了。</span></span><br><span class="line">    <span class="comment"># scripts=[],  # 安装时需要执行的脚本列表</span></span><br><span class="line">    <span class="comment"># entry_points=&#123;     # 动态发现服务和插件</span></span><br><span class="line">    <span class="comment">#     &#x27;console_scripts&#x27;: [</span></span><br><span class="line">    <span class="comment">#         &#x27;jsuniv_sllab = jsuniv_sllab.help:main&#x27;</span></span><br><span class="line">    <span class="comment">#     ]</span></span><br><span class="line">    <span class="comment"># &#125;</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>cd到setup.py文件所在目录，执行命令</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">python setup.py bdist_wheel</span><br></pre></td></tr></table></figure>
+
+<p>运行后可以看到文件结构发生了改变</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327162956.png"></p>
+<p>我们关注dist文件夹中的whl文件，这就是我们打包好的本地第三方库。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>我们新建一个文件夹，并把whl文件放到里面</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163408.png"></p>
+<p>cd到testy文件夹，命令行运行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pip install hello-0.1-py3-none-any.whl</span><br></pre></td></tr></table></figure>
+
+<p>可以看到pip先在远程仓库寻找叫这个名字的包，没找到则在本地目录中找并安装。</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163553.png"></p>
+<p>下面我们测试一下，命令行输入</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">python</span><br></pre></td></tr></table></figure>
+
+<p>进入python环境</p>
+<p>输入如下指令，可以看到我们的模块被运行了</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085954.png"></p>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><p>使用指令</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pip list</span><br></pre></td></tr></table></figure>
+
+<p>查看已安装的包，可以看到我们之前构建的hello包赫然在列</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085324.png"></p>
+<p>现在我们来卸载它</p>
+<p>使用命令</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pip uninstall hello</span><br></pre></td></tr></table></figure>
+
+<p>卸载成功</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085549.png"></p>
+<p>至此。</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>package</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java程序打包部署为windows服务与过程中的一个错误的记录</title>
+    <url>/2023/03/24/java%20application%20packaging%20and%20some%20error/</url>
+    <content><![CDATA[<p>概述</p>
+<p>记录在将java程序封装成windows服务时的一个小细节，由于名称问题使得程序从运行java.exe变成了不断递归运行自己的问题。</p>
+<span id="more"></span>
+
+<h1 id="错误操作复现"><a href="#错误操作复现" class="headerlink" title="错误操作复现"></a>错误操作复现</h1><h2 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h2><ul>
+<li>编译源程序</li>
+<li>解压编译好的文件</li>
+<li>修改配置文件</li>
+<li>编写服务脚本</li>
+<li>查看运行结果（日志）</li>
+</ul>
+<h2 id="编译源程序"><a href="#编译源程序" class="headerlink" title="编译源程序"></a>编译源程序</h2><p>这里我收到的是已经编译好的程序，在java项目根目录下的target文件夹内可以找到一个打包好的nanridata-bin.tar.gz文件。</p>
+<p>如果需要自己编译，可以使用maven命令编译源码并打包</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编译</span></span><br><span class="line">mvn compile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包</span></span><br><span class="line">mvn package</span><br></pre></td></tr></table></figure>
+
+<h2 id="解压编译好的文件"><a href="#解压编译好的文件" class="headerlink" title="解压编译好的文件"></a>解压编译好的文件</h2><p>解压tar.gz文件到一个合适的位置，这里tar.gz实际上就是对编译好的文件进行了两次压缩打包，所以需要解压两次，可以使用<a href="https://7-zip.org/">7zip</a>进行解压。</p>
+<p>解压后的文件结构如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230324102717.png"></p>
+<p>其中bin中为启动脚本和服务脚本，conf为配置文件，lib中为程序库。</p>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>这里我主要修改RabbitMQ字段和机组测点信息。</p>
+<h2 id="编写服务脚本"><a href="#编写服务脚本" class="headerlink" title="编写服务脚本"></a>编写服务脚本</h2><p>原linux脚本命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$&#123;PROJ_BIN&#125;</span>&quot;</span> &amp;&amp;  <span class="built_in">nohup</span> java -<span class="built_in">cp</span> <span class="string">&quot;<span class="variable">$&#123;PROJ_BIN&#125;</span>:<span class="variable">$&#123;PROJ_HOME&#125;</span>/conf:<span class="variable">$&#123;PROJ_HOME&#125;</span>/lib/*&quot;</span> <span class="variable">$&#123;main_class&#125;</span> &amp;</span><br></pre></td></tr></table></figure>
+
+<p>这里我将脚本放置在bin文件夹下，并根据linux命令修改为windows命令，内容如下：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">java -<span class="built_in">cp</span> <span class="string">&quot;..\bin;..\conf;..\lib\*&quot;</span> cn.hecos.iec.IEC104Start </span><br></pre></td></tr></table></figure>
+
+<p>注意此处我的脚本被我命名成了java.cmd。</p>
+<p>我尝试运行了一下它，出现了下图的情况：</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/%E5%8A%A8%E7%94%BB.gif"></p>
+<p>于是寄了。</p>
+<h1 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h1><p>在别人的指导下，我才意识到犯了个多离谱的错误，这个脚本的名字叫什么都行，唯独不能叫java，因为脚本内容是调用java命令执行后续操作，这使得系统不知道该调用环境变量中的java.exe还是我写的java.cmd脚本，于是选择了其中我的那个，开始递归递归调用。</p>
+<h1 id="修改后的程序运行"><a href="#修改后的程序运行" class="headerlink" title="修改后的程序运行"></a>修改后的程序运行</h1><ul>
+<li>修改文件名</li>
+<li>部署服务</li>
+<li>运行并查看日志</li>
+</ul>
+<h2 id="修改文件名"><a href="#修改文件名" class="headerlink" title="修改文件名"></a>修改文件名</h2><p>将文件名修改为admin.cmd</p>
+<h2 id="部署服务"><a href="#部署服务" class="headerlink" title="部署服务"></a>部署服务</h2><p>使用<a href="http://www.nssm.cc/">nssm</a>对改名后的脚本文件admin.cmd进行部署。</p>
+<p>打开终端，cd到nssm的安装位置</p>
+<p>nssm的使用方法可以双击nssm.exe看到</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230324111501.png"></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\<span class="variable">$&#123;yourPath&#125;</span>\<span class="variable">$&#123;nssmVersion&#125;</span>\<span class="variable">$&#123;systemVersion&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>运行nssm的部署程序</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nssm install</span><br></pre></td></tr></table></figure>
+
+<p>填入相应信息</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230324111929.png"></p>
+<p>点击Install service服务即被部署好了，可以打开服务界面查看</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230324112235.png"></p>
+<p>运行服务并查看日志</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230324112611.png"></p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230324112740.png"></p>
+<p>二者时间对应，至此。</p>
+]]></content>
+      <tags>
+        <tag>java</tag>
+        <tag>封装</tag>
+        <tag>windows服务</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven的配置与使用</title>
+    <url>/2023/03/08/Maven%20-%20config,%20using/</url>
+    <content><![CDATA[<p>之前在创建Springboot项目时出现了pom爆红的情况，maven也不下载依赖，怀疑可能是maven版本过高导致，故重新对maven进行降级和配置。</p>
+<span id="more"></span>
+
+<ul>
+<li>Maven 3.5.3</li>
+</ul>
+<h1 id="一、Maven下载"><a href="#一、Maven下载" class="headerlink" title="一、Maven下载"></a>一、Maven下载</h1><p><a href="https://maven.apache.org/">官网</a>下载3.5.3版本</p>
+<h1 id="二、安装和配置"><a href="#二、安装和配置" class="headerlink" title="二、安装和配置"></a>二、安装和配置</h1><ul>
+<li>解压到常用的存放环境的位置</li>
+<li>配置maven3.5.3的setting.xml文件（1、本地仓库；2、阿里云镜像加速）</li>
+<li>配置maven3.5.3的环境变量</li>
+<li>在idea中设置maven</li>
+</ul>
+<h2 id="1-解压"><a href="#1-解压" class="headerlink" title="1. 解压"></a>1. 解压</h2><h2 id="2-配置maven的setting-xml文件"><a href="#2-配置maven的setting-xml文件" class="headerlink" title="2. 配置maven的setting.xml文件"></a>2. 配置maven的setting.xml文件</h2><p>打开maven根目录下的conf文件夹中的setting.xml文件，找到localRepository词条，对其进行编辑，将自己的本地仓库地址填入对应位置</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308154558.png"></p>
+<p>然后配置远程仓库，找到mirrors词条，对其进行修改，这里使用阿里云仓库</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308155205.png"></p>
+<h2 id="3-配置环境变量"><a href="#3-配置环境变量" class="headerlink" title="3. 配置环境变量"></a>3. 配置环境变量</h2><p>在系统环境变量中新建MAVEN_HOME，路径为安装路径</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308155523.png"></p>
+<p>打开终端，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mvn -version</span><br></pre></td></tr></table></figure>
+
+<p>检查是否配置成功（如图所示配置完成）</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308155719.png"></p>
+<h2 id="4-在idea中设置maven3-5-3"><a href="#4-在idea中设置maven3-5-3" class="headerlink" title="4. 在idea中设置maven3.5.3"></a>4. 在idea中设置maven3.5.3</h2><p>打开设置</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308160021.png"></p>
+<p>选择为新项目设置</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308160058.png"></p>
+<p>对此三处进行配置</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308160318.png"></p>
+<p>配置完成后新建一个maven项目</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230308161333.png"></p>
+<p>均无报错，说明配置完成。</p>
+<p>maven项目导入依赖成功后我又创建了一个Springboot项目进行测试，结果依然出现了依赖无法导入的问题，在网上查找了相关问题的帖子后，认为可能是Springboot更新版本后远程仓库的jar包的名称有变化，导致maven搜索不到老版本Springboot的某个依赖包。而创建Springboot项目时，idea会默认选择2.6版本的Springboot，如下图所示</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230309092744.png"></p>
+<p>于是我将其修改为2.7.6后重新建立依赖，没有报错，至此。</p>
+]]></content>
+      <tags>
+        <tag>Maven</tag>
+        <tag>Springboot</tag>
+      </tags>
+  </entry>
+</search>

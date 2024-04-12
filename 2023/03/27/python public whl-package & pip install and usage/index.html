@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"marcaas.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="把自己的程序打包给别人去用，此处的包和打包的概念不一样，而是python中的package，是指发布的模块压缩包或whl包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="制作并使用python发布的模块压缩包和whl包，并进行pip安装和使用">
+<meta property="og:url" content="https://marcaas.github.io/2023/03/27/python%20public%20whl-package%20&%20pip%20install%20and%20usage/index.html">
+<meta property="og:site_name" content="Marcaas&#39;s Blog">
+<meta property="og:description" content="把自己的程序打包给别人去用，此处的包和打包的概念不一样，而是python中的package，是指发布的模块压缩包或whl包">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140115.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140600.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140736.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327161801.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327162956.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163408.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163553.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085954.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085324.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085549.png">
+<meta property="article:published_time" content="2023-03-27T05:28:21.000Z">
+<meta property="article:modified_time" content="2024-04-12T07:45:56.703Z">
+<meta property="article:author" content="marcaas">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="package">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140115.png">
+
+
+<link rel="canonical" href="https://marcaas.github.io/2023/03/27/python%20public%20whl-package%20&%20pip%20install%20and%20usage/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://marcaas.github.io/2023/03/27/python%20public%20whl-package%20&%20pip%20install%20and%20usage/","path":"2023/03/27/python public whl-package & pip install and usage/","title":"制作并使用python发布的模块压缩包和whl包，并进行pip安装和使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>制作并使用python发布的模块压缩包和whl包，并进行pip安装和使用 | Marcaas's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Marcaas's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Marcaas's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Never mind and just go.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li><li class="menu-item menu-item-rss"><a href="/atom.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">几个概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97"><span class="nav-number">1.1.</span> <span class="nav-text">模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%EF%BC%88Package%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">包（Package）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.</span> <span class="nav-text">第三方模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pip"><span class="nav-number">1.4.</span> <span class="nav-text">pip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#init-py"><span class="nav-number">1.5.</span> <span class="nav-text">__init__.py</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%EF%BC%88whl%E6%A0%BC%E5%BC%8F%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">构建自己的第三方库（whl格式）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85setuptools"><span class="nav-number">2.1.</span> <span class="nav-text">安装setuptools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAsetup-py%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">创建setup.py文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85"><span class="nav-number">2.3.</span> <span class="nav-text">打包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD"><span class="nav-number">2.5.</span> <span class="nav-text">卸载</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">marcaas</p>
+  <div class="site-description" itemprop="description">我的博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/marcaas" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;marcaas" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:thy777marcaas@gmail.com" title="E-Mail → mailto:thy777marcaas@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://syvshc.github.io/" title="https:&#x2F;&#x2F;syvshc.github.io" rel="noopener" target="_blank">无锤乙醇</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://marcaas.github.io/2023/03/27/python%20public%20whl-package%20&%20pip%20install%20and%20usage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="marcaas">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marcaas's Blog">
+      <meta itemprop="description" content="我的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="制作并使用python发布的模块压缩包和whl包，并进行pip安装和使用 | Marcaas's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          制作并使用python发布的模块压缩包和whl包，并进行pip安装和使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-03-27 13:28:21" itemprop="dateCreated datePublished" datetime="2023-03-27T13:28:21+08:00">2023-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-12 15:45:56" itemprop="dateModified" datetime="2024-04-12T15:45:56+08:00">2024-04-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>988</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>把自己的程序打包给别人去用，此处的包和打包的概念不一样，而是python中的package，是指发布的模块压缩包或whl包</p>
+<span id="more"></span>
+
+<h1 id="几个概念"><a href="#几个概念" class="headerlink" title="几个概念"></a>几个概念</h1><ul>
+<li>模块</li>
+<li>包</li>
+<li>第三方模块    </li>
+<li>pip</li>
+<li><code>__init__</code></li>
+</ul>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><p>模块是Python程序架构的一个核心概念，每一个以扩展名.py结尾的Python源代码文件都是一个模块，在模块中定义的全局变量、函数、类都是提供给外界直接使用的工具，用import进行模块的导入。</p>
+<h2 id="包（Package）"><a href="#包（Package）" class="headerlink" title="包（Package）"></a>包（Package）</h2><p>包是一个包含多个模块的特殊目录（文件夹），目录下有一个特殊的文件__init__.py，目的是为了import + 包名可以一次性导入包中所有的模块。</p>
+<h2 id="第三方模块"><a href="#第三方模块" class="headerlink" title="第三方模块"></a>第三方模块</h2><p>第三方模块通常是指由第三方开发团队开发的并且被程序员广泛使用的Python包&#x2F;模块。</p>
+<h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>pip是一个通用的Python包管理工具，提供了对Python包的查找、下载、安装、卸载等功能。</p>
+<h2 id="init-py"><a href="#init-py" class="headerlink" title="__init__.py"></a><code>__init__.py</code></h2><p>是一个对外的接口，若需要把我们的模块在外界使用，则需要编辑配置init文件，来指定对外的列表，例如：</p>
+<p>我建立了一个结构如下的文件夹</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140115.png"></p>
+<p>其中__init__.py为接口文件，test1和test2是两个模块，main文件用来测试，先在__init__文件中进行编辑</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> test1</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> test2</span><br></pre></td></tr></table></figure>
+
+<p>然后在main文件里测试，输入</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> major1</span><br><span class="line"></span><br><span class="line">major1.</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，代码提示中出现test1和test2</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140600.png"></p>
+<p>此时我们如果把__init__.py中的test1一行注释掉，则会观察到，代码提示中只剩下了test2</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327140736.png"></p>
+<p>以上我们可以看出__init__.py文件的作用。</p>
+<h1 id="构建自己的第三方库（whl格式）"><a href="#构建自己的第三方库（whl格式）" class="headerlink" title="构建自己的第三方库（whl格式）"></a>构建自己的第三方库（whl格式）</h1><ul>
+<li>安装setuptools</li>
+<li>创建并编辑setup.py文件</li>
+<li>打包</li>
+<li>安装</li>
+<li>卸载</li>
+</ul>
+<p>首先，我的文件结构如下</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327161801.png"></p>
+<p>其中__init__.py中引入hellotest.py和helloworld.py两个模块</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> hellotest</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> helloworld</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装setuptools"><a href="#安装setuptools" class="headerlink" title="安装setuptools"></a>安装setuptools</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install setuptools</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建setup-py文件"><a href="#创建setup-py文件" class="headerlink" title="创建setup.py文件"></a>创建setup.py文件</h2><p>setup.py文件为打包的配置文件，内容如下，注意这里的打包的py文件和包文件夹的目录结构要和真实文件的结构相对应。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打包成模块压缩包</span></span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> find_packages</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&quot;hello&quot;</span>,  <span class="comment"># 包名</span></span><br><span class="line">    version=<span class="string">&quot;0.1&quot;</span>,  <span class="comment"># 版本</span></span><br><span class="line">    <span class="comment"># 最重要的就是py_modules和packages</span></span><br><span class="line">    py_modules=[<span class="string">&quot;hello.hellotest&quot;</span>,<span class="string">&quot;hello.helloworld&quot;</span>],  <span class="comment"># py_modules : 打包的.py文件</span></span><br><span class="line">    packages=[<span class="string">&quot;hello&quot;</span>],  <span class="comment"># packages: 打包的python文件夹</span></span><br><span class="line">    <span class="comment"># keywords=(&quot;AI&quot;, &quot;Algorithm&quot;),  # 程序的关键字列表</span></span><br><span class="line">    description=<span class="string">&quot;AIAgorithmPack&quot;</span>,                 <span class="comment"># 简单描述</span></span><br><span class="line">    long_description=<span class="string">&quot;AIAgorithmPack for python&quot;</span>, <span class="comment"># 详细描述</span></span><br><span class="line">    <span class="comment"># license=&quot;MIT Licence&quot;,  # 授权信息</span></span><br><span class="line">    url=<span class="string">&quot;https://marcaas.github.io/&quot;</span>,  <span class="comment"># 官网地址</span></span><br><span class="line">    author=<span class="string">&quot;marcaas&quot;</span>,  <span class="comment"># 作者</span></span><br><span class="line">    author_email=<span class="string">&quot;thy777marcaas@gmail.com&quot;</span>,  <span class="comment"># 作者邮箱</span></span><br><span class="line">    <span class="comment"># packages=find_packages(), # 需要处理的包目录（包含__init__.py的文件夹）</span></span><br><span class="line">    <span class="comment"># platforms=&quot;any&quot;,  # 适用的软件平台列表</span></span><br><span class="line">    <span class="comment"># install_requires=[],  # 需要安装的依赖包</span></span><br><span class="line">    <span class="comment"># 项目里会有一些非py文件,比如html和js等,这时候就要靠include_package_data和package_data来指定了。</span></span><br><span class="line">    <span class="comment"># scripts=[],  # 安装时需要执行的脚本列表</span></span><br><span class="line">    <span class="comment"># entry_points=&#123;     # 动态发现服务和插件</span></span><br><span class="line">    <span class="comment">#     &#x27;console_scripts&#x27;: [</span></span><br><span class="line">    <span class="comment">#         &#x27;jsuniv_sllab = jsuniv_sllab.help:main&#x27;</span></span><br><span class="line">    <span class="comment">#     ]</span></span><br><span class="line">    <span class="comment"># &#125;</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>cd到setup.py文件所在目录，执行命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py bdist_wheel</span><br></pre></td></tr></table></figure>
+
+<p>运行后可以看到文件结构发生了改变</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327162956.png"></p>
+<p>我们关注dist文件夹中的whl文件，这就是我们打包好的本地第三方库。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>我们新建一个文件夹，并把whl文件放到里面</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163408.png"></p>
+<p>cd到testy文件夹，命令行运行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install hello-0.1-py3-none-any.whl</span><br></pre></td></tr></table></figure>
+
+<p>可以看到pip先在远程仓库寻找叫这个名字的包，没找到则在本地目录中找并安装。</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230327163553.png"></p>
+<p>下面我们测试一下，命令行输入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python</span><br></pre></td></tr></table></figure>
+
+<p>进入python环境</p>
+<p>输入如下指令，可以看到我们的模块被运行了</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085954.png"></p>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><p>使用指令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip list</span><br></pre></td></tr></table></figure>
+
+<p>查看已安装的包，可以看到我们之前构建的hello包赫然在列</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085324.png"></p>
+<p>现在我们来卸载它</p>
+<p>使用命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip uninstall hello</span><br></pre></td></tr></table></figure>
+
+<p>卸载成功</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230328085549.png"></p>
+<p>至此。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/package/" rel="tag"># package</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/03/24/java%20application%20packaging%20and%20some%20error/" rel="prev" title="java程序打包部署为windows服务与过程中的一个错误的记录">
+                  <i class="fa fa-chevron-left"></i> java程序打包部署为windows服务与过程中的一个错误的记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/03/28/Navicat_and_MySQL%20-%20using/" rel="next" title="Navicat和MySQL的使用">
+                  Navicat和MySQL的使用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">marcaas</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">13k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">46 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

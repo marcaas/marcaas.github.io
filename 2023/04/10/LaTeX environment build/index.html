@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"marcaas.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="word用着打公式过于麻烦，于是把扔了好几年的LaTeX给捡回来。这里我选择在WSL（Windows Subsystem for Linux）中安装TeX Live，并将其安装在用户个人文件夹中。并使用vscode作为编辑器进行文档编辑。 本文参考无锤乙醇的latex-tutorial以及啸行编写的install-latex-guide-zh-cn，仅作个人学习记录使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX的安装与环境配置">
+<meta property="og:url" content="https://marcaas.github.io/2023/04/10/LaTeX%20environment%20build/index.html">
+<meta property="og:site_name" content="Marcaas&#39;s Blog">
+<meta property="og:description" content="word用着打公式过于麻烦，于是把扔了好几年的LaTeX给捡回来。这里我选择在WSL（Windows Subsystem for Linux）中安装TeX Live，并将其安装在用户个人文件夹中。并使用vscode作为编辑器进行文档编辑。 本文参考无锤乙醇的latex-tutorial以及啸行编写的install-latex-guide-zh-cn，仅作个人学习记录使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410082153.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410084251.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410084405.png">
+<meta property="article:published_time" content="2023-04-10T00:05:58.000Z">
+<meta property="article:modified_time" content="2024-04-12T07:45:56.703Z">
+<meta property="article:author" content="marcaas">
+<meta property="article:tag" content="LaTeX">
+<meta property="article:tag" content="环境配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410082153.png">
+
+
+<link rel="canonical" href="https://marcaas.github.io/2023/04/10/LaTeX%20environment%20build/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://marcaas.github.io/2023/04/10/LaTeX%20environment%20build/","path":"2023/04/10/LaTeX environment build/","title":"LaTeX的安装与环境配置"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LaTeX的安装与环境配置 | Marcaas's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Marcaas's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Marcaas's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Never mind and just go.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li><li class="menu-item menu-item-rss"><a href="/atom.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TeX-Live%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">TeX Live下载安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%98%E7%BD%91"><span class="nav-number">2.1.</span> <span class="nav-text">进入官网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">2.2.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">选择安装方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E9%95%9C%E5%83%8F%E7%BD%91%E7%AB%99"><span class="nav-number">2.4.</span> <span class="nav-text">选择镜像网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85TEX-Live"><span class="nav-number">2.5.</span> <span class="nav-text">安装TEX Live</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD-TeX-live"><span class="nav-number">2.6.</span> <span class="nav-text">卸载 TeX live</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E6%BA%90%E5%86%85%E7%9A%84%E7%89%88%E6%9C%AC"><span class="nav-number">2.6.1.</span> <span class="nav-text">卸载源内的版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E5%8D%B8%E8%BD%BD"><span class="nav-number">2.6.2.</span> <span class="nav-text">手动卸载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-tlmgr-%E5%B7%A5%E5%85%B7"><span class="nav-number">2.6.3.</span> <span class="nav-text">使用 tlmgr 工具</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">marcaas</p>
+  <div class="site-description" itemprop="description">我的博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/marcaas" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;marcaas" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:thy777marcaas@gmail.com" title="E-Mail → mailto:thy777marcaas@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://syvshc.github.io/" title="https:&#x2F;&#x2F;syvshc.github.io" rel="noopener" target="_blank">无锤乙醇</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://marcaas.github.io/2023/04/10/LaTeX%20environment%20build/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="marcaas">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marcaas's Blog">
+      <meta itemprop="description" content="我的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LaTeX的安装与环境配置 | Marcaas's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LaTeX的安装与环境配置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-10 08:05:58" itemprop="dateCreated datePublished" datetime="2023-04-10T08:05:58+08:00">2023-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-12 15:45:56" itemprop="dateModified" datetime="2024-04-12T15:45:56+08:00">2024-04-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>word用着打公式过于麻烦，于是把扔了好几年的LaTeX给捡回来。这里我选择在WSL（Windows Subsystem for Linux）中安装TeX Live，并将其安装在用户个人文件夹中。并使用vscode作为编辑器进行文档编辑。</p>
+<p>本文参考<a target="_blank" rel="noopener" href="https://syvshc.github.io/">无锤乙醇</a>的<a target="_blank" rel="noopener" href="https://syvshc.github.io/2022-04-20-latex-tutorial/#fn1">latex-tutorial</a>以及啸行编写的<a target="_blank" rel="noopener" href="http://mirrors.ctan.org/info/install-latex-guide-zh-cn/install-latex-guide-zh-cn.pdf">install-latex-guide-zh-cn</a>，仅作个人学习记录使用。</p>
+<span id="more"></span>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>TeX Live 旨在成为启动和运行TeX 文档制作系统的直接方式。它提供了一个全面的 TeX 系统，其中包含适用于大多数 Unix 的二进制文件，包括 GNU&#x2F;Linux 和macOS，以及 Windows。它包括所有主要的 TeX 相关程序、宏包和免费软件字体，包括对全球多种语言的支持。许多 Unix&#x2F;GNU&#x2F;Linux操作系统通过它们自己的发行版和包管理器提供 TeX Live。</p>
+<h1 id="TeX-Live下载安装"><a href="#TeX-Live下载安装" class="headerlink" title="TeX Live下载安装"></a>TeX Live下载安装</h1><h2 id="进入官网"><a href="#进入官网" class="headerlink" title="进入官网"></a>进入官网</h2><p><a target="_blank" rel="noopener" href="https://tug.org/texlive/">官网</a></p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410082153.png"></p>
+<h2 id="选择安装方式"><a href="#选择安装方式" class="headerlink" title="选择安装方式"></a>选择安装方式</h2><p>这里选择ISO镜像安装</p>
+<p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410084251.png"></p>
+<h2 id="选择镜像网站"><a href="#选择镜像网站" class="headerlink" title="选择镜像网站"></a>选择镜像网站</h2><p><img src="https://raw.githubusercontent.com/marcaas/hexoPicgo/master/20230410084405.png"></p>
+<p>速度如果较慢也可以直接使用<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/">清华tuna</a>的源</p>
+<h2 id="安装TEX-Live"><a href="#安装TEX-Live" class="headerlink" title="安装TEX Live"></a>安装TEX Live</h2><p>在正式安装前，用户需要在bash中执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install fontconfig gedit</span><br></pre></td></tr></table></figure>
+
+<p>以减少后续字体问题和文本编辑问题，在Windows11中，WSL已经能够自动完成可视化工作，这为一些用户提供了便利。为避免安装速度过慢，可按如下操作更改文件sources.list。</p>
+<p>对原始文件进行备份</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/sources.list /etc/apt/sources.list.bak</span><br></pre></td></tr></table></figure>
+
+<p>接下来执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+
+<p>按照<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/">清华大学镜像网站</a>的内容对链接进行替换，保存退出，再执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt upgrade</span><br></pre></td></tr></table></figure>
+
+<p>换源并更新，若更改错误，可执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/sources.list.bak /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+
+<p>接下来，在主系统中将镜像挂载，例如挂载到 X:\ ，而后进入bash并执行如下命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> /mnt/x</span><br><span class="line">sudo mount -t drvfs X: /mnt/x</span><br></pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/mnt/x/install-tl</span><br></pre></td></tr></table></figure>
+
+<p>并选择路径为</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/texlive/2023</span><br></pre></td></tr></table></figure>
+
+<p>安装完毕后，修改环境变量为</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Add TeX Live to the PATH, MANPATH, INFOPATH</span></span><br><span class="line"><span class="built_in">export</span> PATH=~/texlive/2023/bin/x86_64-linux:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> MANPATH=~/texlive/2023/texmf-dist/doc/man:<span class="variable">$MANPATH</span></span><br><span class="line"><span class="built_in">export</span> INFOPATH=~/texlive/2023/texmf-dist/doc/info:<span class="variable">$INFOPATH</span></span><br></pre></td></tr></table></figure>
+
+<p>有关字体的处理变为</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/texlive/2023/texmf-var/fonts/conf/texlive-fontconfig.conf ~/.fonts.conf/09-texlive.conf</span><br></pre></td></tr></table></figure>
+
+<p>然后执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fc-cache -fv</span><br></pre></td></tr></table></figure>
+
+<p>实际上, 无论将 TEX Live 安装到哪里, 字体的配置文件都可以仿照上面只复制于用户文件夹中.</p>
+<h2 id="卸载-TeX-live"><a href="#卸载-TeX-live" class="headerlink" title="卸载 TeX live"></a>卸载 TeX live</h2><p>下面提供几种卸载方法，卸载后需注意清理环境变量</p>
+<h3 id="卸载源内的版本"><a href="#卸载源内的版本" class="headerlink" title="卸载源内的版本"></a>卸载源内的版本</h3><p>如果要卸载从源内安装的 TeX Live，啸行推荐使用 synaptic package manager，在 Terminal 中执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install synaptic</span><br></pre></td></tr></table></figure>
+
+<p>即可安装，安装后打开，搜索 texlive 即可看到与之相关的包，右键标记以删除即可，当然用户也可以直接使用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l | grep <span class="string">&#x27;TeX␣Live&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>找到相应的包名 &lt;package name&gt;, 之后使用类似</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt autoremove --purge &lt;package name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>的命令删除各个包。通常</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt autoremove --purge tex-common</span><br></pre></td></tr></table></figure>
+
+<p>就可以删除源内版本</p>
+<h3 id="手动卸载"><a href="#手动卸载" class="headerlink" title="手动卸载"></a>手动卸载</h3><p>如果是从光盘镜像安装, 直接删除文件夹即可. 先在 Terminal 中执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kpsewhich -var-value TEXMFROOT</span><br></pre></td></tr></table></figure>
+
+<p>来查询安装路径, 进而通过 sudo rm -rf 命令进行删除. 默认安装的用户直接运行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> -rf /usr/local/texlive/2023</span><br><span class="line"><span class="built_in">rm</span> -rf ~/.texlive2023</span><br></pre></td></tr></table></figure>
+
+<p>卸载完成后，可以进一步移除之前设置的环境变量。在终端中执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>然后移除之前在文件末尾添加的</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Add TeX Live to the PATH, MANPATH, INFOPATH</span></span><br><span class="line"><span class="built_in">export</span> PATH=/usr/local/texlive/2023/bin/x86_64-linux:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> MANPATH=/usr/local/texlive/2023/texmf-dist/doc/man:<span class="variable">$MANPATH</span></span><br><span class="line"><span class="built_in">export</span> INFOPATH=/usr/local/texlive/2023/texmf-dist/doc/info:<span class="variable">$INFOPATH</span></span><br></pre></td></tr></table></figure>
+
+<p>并保存退出. 同时在 Terminal 中执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure>
+
+<p>在 secure_path 中删除</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/texlive/2023/bin/x86_64-linux:</span><br></pre></td></tr></table></figure>
+
+<p>然后依次Ctrl + X , Y , Enter 保存退出.</p>
+<h3 id="使用-tlmgr-工具"><a href="#使用-tlmgr-工具" class="headerlink" title="使用 tlmgr 工具"></a>使用 tlmgr 工具</h3><p>同样, 用户也可以使用 tlmgr 工具卸载</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tlmgr remove --all</span><br></pre></td></tr></table></figure>
+
+<p>至此</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LaTeX/" rel="tag"># LaTeX</a>
+              <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag"># 环境配置</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/04/Docker%20-%20install/" rel="prev" title="Docker安装部署">
+                  <i class="fa fa-chevron-left"></i> Docker安装部署
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/14/RouteTwins/" rel="next" title="内外网同时连接的静态路由设置">
+                  内外网同时连接的静态路由设置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">marcaas</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">13k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">46 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
